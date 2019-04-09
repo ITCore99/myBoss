@@ -1,7 +1,7 @@
 <template>
      <div class="home-container">
         <div class="wrapper">
-
+          <!--顶部查询区-->
           <div class="input-wrapper">
             <div style="height: 100%;width:80%;border:1px solid #eee;box-sizing: border-box;display: flex">
               <span>职位类型</span>
@@ -9,7 +9,7 @@
             </div>
             <button>搜素</button>
           </div>
-
+          <!--热门职业区-->
           <div class="hot-job">
              <span class="hot-title">热门职位</span>
              <ul>
@@ -19,18 +19,41 @@
                <li>python</li>
              </ul>
           </div>
-
+          <!--主筛选区-->
           <div class="main-choice">
              <div class="main-choice-slider">
-                <ul>
-                  <li v-for="(item,index) in list">
-                    <span>技术</span>
+                <ul class="sliderUl">
+                  <li v-for="(item,index) in list"  >
+                    <span>信息工程</span>
                     <router-link to="">java</router-link>
                     <router-link to="">php</router-link>
                     <router-link to="">web前端</router-link>
+                    <router-link to="">&gt</router-link>
+                    <div class="slider-details">
+                          <div class="slider-details-title">技术</div>
+                          <div class="slider-details-main">
+                            <div class="slider-details-classify">
+                                 后端开发
+                            </div>
+                            <div class="slider-details-job">
+                              <ul>
+                                <li>后端开发</li>
+                                <li>java</li>
+                                <li>c++</li>
+                                <li>数据挖掘</li>
+                                <li>C</li>
+                                <li>C#</li>
+                                <li>.NET</li>
+                                <li>Node.js</li>
+                                <li>gg</li>
+                              </ul>
+                            </div>
+                          </div>
+                    </div>
                   </li>
                 </ul>
              </div>
+             <div class="main-choice-middle"></div>
              <div class="main-choice-sudoku">
                 <div class="sudoku-one">
                     <router-link to="">
@@ -69,7 +92,7 @@
 
              </div>
           </div>
-
+          <!--热门专业-->
           <div class="hot-domain-party">
             <ul>
               <li>IT·互联网</li>
@@ -83,7 +106,7 @@
               <li>法律咨询</li>
             </ul>
             <div class="square-part">
-               <router-link to="" v-for="(item,index) in list2">
+               <router-link to="" v-for="(item,index) in list2" v-bind:key="index">
                   <div class="square-top">
                      <div class="square-job-wrapper">
                        <div class="square-job-title">高级java开发工程师</div>
@@ -103,92 +126,135 @@
                   </div>
                </router-link>
             </div>
+            <!--查看更多-->
+            <div class="getMore">
+                <button>查看更多</button>
+            </div>
+          </div>
+          <!--企业巨头区-->
+          <div class="company-giant">
+            <ul>
+              <li>热门公司</li>
+              <li>行业巨头</li>
+              <li>新锐公司</li>
+              <li>上市公司</li>
+            </ul>
+            <div class="company-square">
+              <router-link to="" v-for="(item,index) in list3">
+                <div class="company-square-top">
+                   <div class="cst-left">
+                      <img src="https://img.bosszhipin.com/beijin/mcs/chatphoto/20171107/6b08163b16bcfc670480c6610be72906cfcd208495d565ef66e7dff9f98764da.jpg?x-oss-process=image/resize,w_100,limit_0"/>
+                   </div>
+                   <div class="cst-right">
+                       <div class="cstr-top">
+                            <span>小灵花科技</span>
+                       </div>
+                       <div class="cstr-bottom">
+                            <span>天使轮</span>
+                            <span>互联网金融</span>
+                       </div>
+                   </div>
+                </div>
+                <div class="company-square-bottom"></div>
+              </router-link>
+            </div>
+          </div>
+          <!--查看更多-->
+          <div class="getMore">
+            <button>查看更多</button>
           </div>
         </div>
+       <FooterNav class="footerNav"></FooterNav>
      </div>
 
 </template>
 
 <script>
+  import  FooterNav   from '@/components/footerNav'
     export default {
         name: "home",
         data:()=>{
           return{
             list:[0,1,2,3,4,5,6,7,8,9],
-            list2:[0,1,2,3,4,5,6,7,8]
+            list2:[0,1,2,3,4,5,6,7,8],
+            list3:[0,1,2,3,4,5,6,7,8,9,10,11]
           }
-        }
+        },
+       components:{
+        FooterNav,
+       }
 
     }
 </script>
 
 <style scoped lang="scss">
 
-    .home-container{
-      .wrapper{
-        width:1247px;
-        margin:0 auto;
+    .home-container
+    {
+      .wrapper
+      {
+        width: 1247px;
+        margin: 0 auto;
 
-
-        .input-wrapper{
-           display:flex;
-           width:1164px;
-           height:64px;
-           margin:26px auto  0;
-           span{
-             display: inline-block;
-             line-height: 64px;
-             text-align:center;
-             color:#61687c;
-             opacity: 0.8;
-             width:15%;
-             height:100%;
-           }
-          input{
+        .input-wrapper
+        {
+          display: flex;
+          width: 1164px;
+          height: 64px;
+          margin: 26px auto 0;
+          span {
+            display: inline-block;
+            line-height: 64px;
+            text-align: center;
+            color: #61687c;
+            opacity: 0.8;
+            width: 15%;
+            height: 100%;
+          }
+          input {
             flex: 1;
-            height:100%;
+            height: 100%;
             outline: none;
-            border:none;
+            border: none;
             vertical-align: 4px;
             font-size: 16px;
-            text-indent:2em;
+            text-indent: 2em;
           }
           button {
-            border:none;
-            outline:none;
+            border: none;
+            outline: none;
             flex: 1;
             font-size: 16px;
-            color:#fff;
+            color: #fff;
             height: 100%;
             background-color: #55cbc4;
             vertical-align: 4px;
-            &:hover{
+            &:hover {
               background-color: #00d7c6;
             }
           }
         }
 
-
-        .hot-job
-        {
+        //热门招聘
+        .hot-job {
           display: flex;
           align-items: center;
-          width:1164px;
+          width: 1164px;
           margin: 0 auto;
-          .hot-title{
-            width:10%;
+          .hot-title {
+            width: 10%;
             height: 50px;
             line-height: 50px;
             opacity: 0.8;
-            margin-left:15px;
+            margin-left: 15px;
             font-size: 14px;
-            color:#61687c;
+            color: #61687c;
           }
-          ul{
+          ul {
             display: flex;
-            width:88%;
-            li{
-              width:10%;
+            width: 88%;
+            li {
+              width: 10%;
               font-size: 14px;
               color: #55cbc4;
               text-align: center;
@@ -196,119 +262,191 @@
           }
         }
 
-        .main-choice
-        {
+
+        //主筛选区
+        .main-choice {
           display: flex;
           justify-content: space-between;
-          width:100%;
+          width: 100%;
           height: 500px;
-          margin-top:30px;
-          border:1px solid #eee;
-          .main-choice-slider{
+          margin-top: 30px;
+          border: 1px solid #eee;
+          .main-choice-slider
+          {
             width: 25%;
             height: 100%;
             background-color: #fff;
-            ul{
+            ul
+            {
               height: 100%;
-              li{
+              li
+              {
+                position: relative;
                 display: flex;
                 align-items: center;
                 height: 10%;
-                span,a{
+                span,a
+                {
                   display: flex;
                   align-items: center;
                   justify-content: center;
-                  color:#353535;
+                  color: #353535;
                   font-size: 14px;
-                  width:20%;
+                  width: 20%;
                   height: 100%;
                   text-decoration: none;
                 }
-                span{
+                span {
                   font-weight: bold;
-                  color:#353535;
+                  color: #353535;
                   text-align: center;
+                }
+                a:last-of-type{
+                  color:#ddd;
+                }
+                .slider-details
+                {
+                  display: none;
+                  position:absolute;
+                  top:0;
+                  left:100%;
+                  width:800px;
+                  font-size: 14px;
+                  color:#61687c;
+                  box-sizing: border-box;
+                  padding:15px 20px;
+                  background: #fff;
+                  z-index:999;
+                  .slider-details-title
+                  {
+                    font-size: 16px;
+                    font-weight: bold;
+                    color:#353535;
+                  }
+                  .slider-details-main
+                  {
+                     width: 100%;
+                     display: flex;
+                     .slider-details-classify
+                     {
+                       display: flex;
+                       align-items: center;;
+                       justify-content: center;
+                       width: 20%;
+                     }
+                     .slider-details-job
+                     {
+                       flex: 1;
+                       ul{
+                         display: flex;
+                         width: 100%;
+                         flex-wrap: wrap;
+                         li{
+                           display: flex;
+                           justify-content: center;
+                           align-items: center;
+                           width:calc(100% / 6);
+                           height: 30px;
+                           font-size: 14px;
+                           &:hover{
+                             background: #fff;
+                             color: #55cbc4;
+                           }
+                         }
+                       }
+                     }
+                  }
                 }
                 &:hover{
                   background: #55cbc4;
                 }
-                &:hover  span{
+                &:hover span {
                   color: #fff;
                 }
-                &:hover  a{
+                &:hover a {
                   color: #fff;
+                }
+                &:hover  .slider-details{
+                   display: block;
                 }
               }
 
             }
           }
-
-          .main-choice-sudoku{
-            width:70%;
+          .main-choice-middle{
+            width: 4%;
+            height: 100%;
+            background: transparent;
+          }
+          //九宫格
+          .main-choice-sudoku {
+            flex: 1;
             height: 100%;
             box-sizing: border-box;
-
-            .sudoku-one{
-              display: flex;
-              height: 40%;
-              a:nth-of-type(1)
-              {
-                width: 70%;
-                height:100%;
-              }
-              a:nth-of-type(2)
-              {
-                width:30%;
-                height: 100%;
-              }
-              img{
-                width: 100%;
-                height:100%;
-              }
+            img:hover{
+              opacity:0.8;
             }
-            .sudoku-two{
+            .sudoku-one {
               display: flex;
               height: 40%;
-              img{
-                width: 100%;
-                height:100%;
-              }
-              a{
-                width: calc(100%/3);
+              a:nth-of-type(1) {
+                width: 70%;
                 height: 100%;
                 box-sizing: border-box;
-                border:1px solid #000;
+                border: 1px solid #eee;
               }
-              .heap{
+              a:nth-of-type(2) {
+                width: 30%;
+                height: 100%;
+                box-sizing: border-box;
+                border: 1px solid #eee;
+              }
+              img {
+                width: 100%;
+                height: 100%;
+              }
+            }
+            .sudoku-two {
+              display: flex;
+              height: 40%;
+              img {
+                width: 100%;
+                height: 100%;
+              }
+              a {
+                width: calc(100% / 3);
+                height: 100%;
+                box-sizing: border-box;
+                border: 1px solid #eee;
+              }
+              .heap {
                 display: flex;
                 flex-direction: column;
-                width: calc(100%/3);
-                a{
+                width: calc(100% / 3);
+                a {
                   width: 100%;
                   height: 50%;
                   box-sizing: border-box;
-                  border:1px solid #000;
+                  border: 1px solid #eee;
                 }
               }
             }
-            .sudo-three{
+            .sudo-three {
               display: flex;
               height: 20%;
-              a{
+              a {
                 box-sizing: border-box;
-                border: 1px solid #000;
+                border: 1px solid #eee;
               }
-              a:nth-of-type(1)
-              {
+              a:nth-of-type(1) {
                 width: 80%;
-                height:100%;
+                height: 100%;
               }
-              a:nth-of-type(2)
-              {
-                width:20%;
-                height:100%;
+              a:nth-of-type(2) {
+                width: 20%;
+                height: 100%;
               }
-              img{
+              img {
                 width: 100%;
                 height: 100%;
               }
@@ -316,99 +454,194 @@
 
           }
         }
-
-        .hot-domain-party{
-          margin-top:30px;
+        // 热门专业
+        .hot-domain-party {
+          margin-top: 30px;
           box-sizing: border-box;
-          ul{
+          ul {
             display: flex;
-            border-bottom:2px solid #00c2b3;
-            li{
+            border-bottom: 2px solid #00c2b3;
+            li {
               width: 10%;
-              padding:10px 0;
-              text-align:center;
+              padding: 10px 0;
+              text-align: center;
             }
-            li:nth-of-type(1)
-            {
+            li:nth-of-type(1) {
               color: #00c2b3;
             }
           }
-          .square-part{
-             display: flex;
-             flex-wrap:wrap;
-             a{
-               width: calc(100% /3);
-               padding:10px 20px 0 20px;
-               box-sizing: border-box;
-               border:1px solid #eee;
-               text-decoration: none;
-               background: #fff;
-               .square-top
-               {
-                  width:100%;
-                  padding-bottom: 5px;
-                  border-bottom:1px  dashed #eee;
-                 .square-job-wrapper
-                 {
-                   display: flex;
-                   font-size: 16px;
-                   justify-content: space-between;
-                   .square-job-title
-                   {
-                     color:#353535;
-                   }
-                   .square-salary
-                   {
-                     color:#ff0000;
-                   }
-                 }
-                 .square-job-bottom
-                 {
-                   margin-top:2px;
-                   span
-                   {
-                     font-size: 12px;
-                     padding:0 4px;
-                     color:#353535;
-                     border-right:2px solid #eee;
-                   }
-                 }
-                 &:hover .square-job-title{
-                   color:#5dd5c8
-                 }
-               }
-               .square-bottom
-               {
-                 display: flex;
-                 padding: 5px 0 10px 0;
-                 align-items: center;
-                 img{
-                   width: 30px;
-                   height: 30px;
-                   border-radius:50%;
-                   background: palegoldenrod;
-                 }
-                 span{
-                   margin-left:15px;
-                   font-size: 14px;
-                   color:#8D92A1;
-                 }
-                 span:nth-of-type(1){
-                   font-size: 16px;
-                   color:#61687C;
+          .square-part {
+            display: flex;
+            flex-wrap: wrap;
+            a {
+              width: calc(100% / 3);
+              padding: 10px 20px 0 20px;
+              box-sizing: border-box;
+              border: 1px solid #eee;
+              text-decoration: none;
+              background: #fff;
+              .square-top {
+                width: 100%;
+                padding-bottom: 5px;
+                border-bottom: 1px dashed #eee;
+                .square-job-wrapper {
+                  display: flex;
+                  font-size: 16px;
+                  justify-content: space-between;
+                  .square-job-title {
+                    color: #353535;
+                  }
+                  .square-salary {
+                    color: #ff0000;
+                  }
+                }
+                .square-job-bottom {
+                  margin-top: 2px;
+                  span {
+                    font-size: 12px;
+                    padding: 0 4px;
+                    color: #353535;
+                    border-right: 2px solid #eee;
+                  }
+                }
+                &:hover .square-job-title {
+                  color: #5dd5c8
+                }
+              }
+              .square-bottom {
+                display: flex;
+                padding: 5px 0 10px 0;
+                align-items: center;
+                img {
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  background: palegoldenrod;
+                }
+                span {
+                  margin-left: 15px;
+                  font-size: 14px;
+                  color: #8D92A1;
+                }
+                span:nth-of-type(1) {
+                  font-size: 16px;
+                  color: #61687C;
 
-                 }
-                 &:hover{
-                   background: #FAFAFA;
-                 }
-               }
-               &:hover{
-                 box-shadow: 3px 3px  4px #eee;
-                 z-index:999;
-               }
-             }
+                }
+                &:hover {
+                  background: #FAFAFA;
+                }
+              }
+              &:hover {
+                box-shadow: 3px 3px 4px #eee;
+                z-index: 999;
+              }
+            }
           }
         }
+        //查看更多
+        .getMore {
+          margin-top: 20px;
+          text-align: center;
+          button {
+            outline: none;
+            border: none;
+            width: 250px;
+            height: 30px;
+            font-size: 16px;
+            color: #5DD5c8;
+            line-height: 30px;
+            background-color: #fff;
+            border: 1px #5dd5c8 solid;
+            &:hover {
+              background: #5dd5c8;
+              color: #fff;
+            }
+          }
+        }
+        //企业巨头
+        .company-giant {
+          margin-top: 30px;
+          box-sizing: border-box;
+          ul {
+            display: flex;
+            border-bottom: 2px solid #00c2b3;
+            li {
+              width: 10%;
+              padding: 10px 0;
+              text-align: center;
+            }
+            li:nth-of-type(1) {
+              color: #00c2b3;
+            }
+          }
+          .company-square
+          {
+            display: flex;
+            flex-wrap: wrap;
+            a{
+              width: 25%;
+              box-sizing:border-box ;
+              padding:10px 20px;
+              border: 1px solid #eee;
+              background: #fff;
+              .company-square-top
+              {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                .cst-left
+                {
+                  width: 30%;
+                  img{
+                    width: 40px;
+                    height: 40px;
+                    border-radius:10px;
+                  }
+                }
+                .cst-right
+                {
+                  font-size:12px;
+                  color:#898E9D;
+                  width: 70%;
+                  text-align: right;
+                  .cstr-top
+                  {
+                    font-size: 16px;
+                    color:#353535;
+                  }
+                  .cstr-bottom
+                  {
+                    margin-top:5px;
+                    span{
+                      padding: 0px 8px;
+                    }
+                    span:nth-of-type(1)
+                    {
+                      border-right:2px solid #eee;
+                    }
+                  }
+                }
+                &:hover .cstr-top span{
+                  color:#00c2b3;
+                }
+              }
+              .company-square-bottom
+              {
+                width: 70%;
+              }
+              &:hover{
+                box-shadow:3px 3px 4px #eee;
+                z-index: 999;
+              }
+            }
+
+          }
+
+        }
+      }
+      .footerNav{
+        margin-top: 20px;
       }
     }
 </style>

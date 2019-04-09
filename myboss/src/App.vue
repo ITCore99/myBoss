@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <HeaderNav></HeaderNav>
-    <div class="appMainWrapper">
-      <router-view/>
-    </div>
+    <router-view/>
   </div>
 </template>
 
@@ -31,10 +29,7 @@ export default {
   img{
     vertical-align: middle;
   }
-  .appMainWrapper
-  {
-    width:1247px;
-    margin:0 auto;
-    border:1px solid #ddd;
+  a{
+    text-decoration: none;
   }
 </style>
