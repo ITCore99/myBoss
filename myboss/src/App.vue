@@ -20,6 +20,9 @@ export default {
    margin:0;
    padding:0;
  }
+ #app{
+   width: 100vw;
+ }
   body{
     background-color: #f6f6f8;
   }

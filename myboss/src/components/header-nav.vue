@@ -16,7 +16,7 @@
           <router-link to="">资讯</router-link>
         </div>
       </div>
-      <div class="header-main-right">
+      <div class="header-main-right" v-if="this.$store.state.userInfo.phone">
         <router-link to="">消息</router-link>
         <router-link to="">简历</router-link>
         <span>.</span>
