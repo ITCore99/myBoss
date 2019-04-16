@@ -30,7 +30,7 @@
           </div>
          <!--下方列表展示区-->
          <div class="company-square-part">
-           <div class="company-square-item" v-for="temp in  squareData">
+           <div class="company-square-item" v-for="temp in  squareData" @click="goCompanyDetails">
               <div class="company-square-item-top">
                  <div class="csit-img">
                    <img src="https://img.bosszhipin.com/beijin/images/imageafdcfd42b5573f405694b10542b2ed0a-1b8ad4f9ae798dceAsHDAnQIDhIOlQ~~?x-oss-process=image/resize,w_120,limit_0"/>
@@ -119,6 +119,10 @@
           },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+          },
+          goCompanyDetails()
+          {
+            this.$router.push("/companyDetails");
           }
         }
     }

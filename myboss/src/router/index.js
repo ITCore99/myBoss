@@ -7,7 +7,8 @@ Vue.use(Router)
    home:()=>import('@/views/home'),
    position:()=>import('@/views/position'),
    company:()=>import('@/views/company'),
-   positionDetails:()=>import('@/views/positionDetails')
+   positionDetails:()=>import('@/views/positionDetails'),
+   companyDetails:()=>import('@/views/companyDetails')
  }
 export default new Router({
   routes: [
@@ -35,6 +36,11 @@ export default new Router({
       path:"/positionDetail",
       name:"positionDetail",
       component:components.positionDetails
+    },
+    {
+      path:"/companyDetails",
+      name:"companyDetail",
+      component:components.companyDetails
     }
   ]
 })
