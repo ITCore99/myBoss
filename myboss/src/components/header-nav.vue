@@ -3,15 +3,15 @@
     <div class="header-main">
       <div class="header-main-left">
         <span class="hml-title">BOSS 直聘</span>
-        <div class="city-part">
+        <div class="city-part" v-if="false">
           <i></i>
           <span>北京</span>
           <span>[城市切换]</span>
         </div>
         <div class="options-part">
-          <router-link to="">首页</router-link>
-          <router-link to="">职位</router-link>
-          <router-link to="">公司</router-link>
+          <router-link to="/home" :class= "this.$store.state.selectedBar == 0 ? 'active' : '' " @click.native="changeBarTitle(0)">首页</router-link>
+          <router-link to="/position"  :class= "this.$store.state.selectedBar == 1 ? 'active' : '' " @click.native="changeBarTitle(1)">职位</router-link>
+          <router-link to="/company"  :class= "this.$store.state.selectedBar == 2 ? 'active' : '' " @click.native="changeBarTitle(2)">公司</router-link>
           <router-link to="">APP</router-link>
           <router-link to="">资讯</router-link>
         </div>
@@ -32,7 +32,25 @@
 
 <script>
     export default {
-        name: "header-nav"
+        name: "header-nav",
+        data()
+        {
+          return{
+
+          }
+        },
+        methods:{
+          changeBarTitle(index)
+          {
+            console.log("触发了")
+            console.log(index);
+            this.$store.commit("CHANGETITLE",index);
+          }
+        },
+        created()
+        {
+
+        }
     }
 </script>
 
@@ -47,7 +65,7 @@
       display:flex;
       justify-content:space-between;
       align-items: center;
-      width:1247px;
+      width:1200px;
       height: 100%;
       margin:0 auto;
 
@@ -71,7 +89,6 @@
         }
 
         .options-part{
-
           a{
             color:#fff;
             font-size: $font-size;
@@ -80,10 +97,12 @@
             &:hover{
               color:$color;
             }
+            &.active
+            {
+              color:$color !important;
+            }
           }
-          a:first-child{
-            color:$color;
-          }
+
         }
 
       }

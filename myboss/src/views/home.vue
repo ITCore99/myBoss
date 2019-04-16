@@ -24,7 +24,7 @@
              <div class="main-choice-slider">
                 <ul class="sliderUl">
                   <li v-for="(item,index) in list"  >
-                    <span>信息工程</span>
+                    <span style="margin-left:15px;">信息工程</span>
                     <router-link to="">java</router-link>
                     <router-link to="">php</router-link>
                     <router-link to="">web前端</router-link>
@@ -164,13 +164,12 @@
             <button>查看更多</button>
           </div>
         </div>
-       <FooterNav class="footerNav"></FooterNav>
      </div>
 
 </template>
 
 <script>
-  import  FooterNav   from '@/components/footerNav'
+
     export default {
         name: "home",
         data:()=>{
@@ -181,7 +180,7 @@
           }
         },
        components:{
-        FooterNav,
+
        }
 
     }
@@ -191,15 +190,16 @@
 
     .home-container
     {
+      width: 1200px;
+      margin: 0 auto 0;
+      box-sizing: border-box;
+      //border: 1px solid #eee;
       .wrapper
       {
-        width: 1247px;
-        margin: 0 auto;
-
         .input-wrapper
         {
           display: flex;
-          width: 1164px;
+          width: 1100px;
           height: 64px;
           margin: 26px auto 0;
           span {
@@ -239,7 +239,7 @@
         .hot-job {
           display: flex;
           align-items: center;
-          width: 1164px;
+          width: 1100px;
           margin: 0 auto;
           .hot-title {
             width: 10%;
@@ -541,7 +541,7 @@
         }
         //查看更多
         .getMore {
-          margin-top: 20px;
+          margin:20px 0;
           text-align: center;
           button {
             outline: none;
@@ -639,9 +639,6 @@
           }
 
         }
-      }
-      .footerNav{
-        margin-top: 20px;
       }
     }
 </style>

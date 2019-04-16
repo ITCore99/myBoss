@@ -5,6 +5,9 @@ Vue.use(Router)
  const components={
    register:()=>import('@/views/register'),
    home:()=>import('@/views/home'),
+   position:()=>import('@/views/position'),
+   company:()=>import('@/views/company'),
+   positionDetails:()=>import('@/views/positionDetails')
  }
 export default new Router({
   routes: [
@@ -17,6 +20,21 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: components.home
+    },
+    {
+      path:"/position",
+      name:'position',
+      component:components.position
+    },
+    {
+      path:"/company",
+      name:"company",
+      component:components.company
+    },
+    {
+      path:"/positionDetail",
+      name:"positionDetail",
+      component:components.positionDetails
     }
   ]
 })

@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import xhr from './util/index'
 import store from './store/index'
 import router from './router'
+import './assets/font/iconfont.css'
 
 Vue.prototype.$axios=xhr
 Vue.use(ElementUI);
