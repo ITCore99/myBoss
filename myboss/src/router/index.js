@@ -8,7 +8,8 @@ Vue.use(Router)
    position:()=>import('@/views/position'),
    company:()=>import('@/views/company'),
    positionDetails:()=>import('@/views/positionDetails'),
-   companyDetails:()=>import('@/views/companyDetails')
+   companyDetails:()=>import('@/views/companyDetails'),
+   resume:()=>import('@/views/resume'),
  }
 export default new Router({
   routes: [
@@ -41,6 +42,11 @@ export default new Router({
       path:"/companyDetails",
       name:"companyDetail",
       component:components.companyDetails
+    },
+    {
+      path:"/resume",
+      name:"resume",
+      component:components.resume
     }
   ]
 })

@@ -18,7 +18,7 @@
       </div>
       <div class="header-main-right" v-if="this.$store.state.userInfo.phone">
         <router-link to="">消息</router-link>
-        <router-link to="">简历</router-link>
+        <router-link to="/resume">简历</router-link>
         <span>.</span>
         <router-link to="">上传</router-link>
         <router-link to="">付卓宁</router-link>
