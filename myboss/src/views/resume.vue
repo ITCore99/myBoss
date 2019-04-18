@@ -4,29 +4,29 @@
           <!--求职者的个人信息区-->
           <div class="resume-main-info">
               <!--展示区-->
-              <div class="resume-main-show" v-if="isShow">
+              <div class="resume-main-show" v-show="isShow">
                  <div class="resume-top-left">
-                    <div class="rtl-name">付卓宁</div>
+                    <div class="rtl-name">{{form.name}}</div>
                     <div class="rtl-work-state">
-                      <span>三年经验</span>
-                      <span>本科学历</span>
-                      <span>离职-随时到岗</span>
+                      <span>{{workYears}}</span>
+                      <span>{{form.eduction}}</span>
+                      <span>{{form.workState}}</span>
                     </div>
                     <div class="rtl-contact-away">
-                       <span>17630384057</span>
-                       <span>fzn18438613218</span>
+                       <span>{{form.phone}}</span>
+                       <span>{{form.wxCode}}</span>
                     </div>
                     <div class="rtl-email">
-                       IT_fzn19970317@163.com
+                       {{form.email}}
                     </div>
                  </div>
                  <div class="resume-top-right">
                     <img class="avatar" src="https://img2.bosszhipin.com/boss/avatar/avatar_15.png" />
-                    <span class="edit"  @click="editor">编辑</span>
+                    <span class="edit"  @click="splitterEditor(0)">编辑</span>
                  </div>
               </div>
               <!--编辑区-->
-              <div class="resume-main-edit" v-if="!isShow">
+              <div class="resume-main-edit"  v-show="!isShow">
                 <h4>编辑个人信息</h4>
                 <el-form ref="form" :model="form">
                   <el-row  type="flex" justify=space-between>
@@ -117,7 +117,7 @@
                   <el-row  type="flex" justify="end">
                     <el-col :span="4" >
                       <el-button>取消</el-button>
-                      <el-button @click="complete">完成</el-button>
+                      <el-button @click="splitterComplete(0)">完成</el-button>
                     </el-col>
                   </el-row>
                 </el-form>
@@ -127,24 +127,23 @@
           <div class="person-advantage">
              <div class="person-advantage-show" >
                <div class="pas-header">个人优势</div>
-               <div class="pas-wrapper" v-if="advantageIsShow">
-                 <div><span @click="AdvantageEditor">编辑</span></div>
-                 <div class="pas-main" v-html="textArea" ></div>
+               <div class="pas-wrapper" v-show="advantageIsShow">
+                 <div><span @click="splitterEditor(1)">编辑</span></div>
+                 <div class="pas-main" v-html="advantageTextArea" ></div>
                </div>
              </div>
-             <div class="person-advantage-editor" v-if="!advantageIsShow">
+             <div class="person-advantage-editor" v-show="!advantageIsShow">
                <h4>编辑个优势</h4>
                <quill-editor
-                 v-model="textArea"
+                 v-model="advantageTextArea"
                  :options="editorOption"
-                 ref="myQuillEditor"
-                 @change="onEditorBlur($event)"
+                 ref="myQuillEditor1"
                >
                </quill-editor>
                <el-row  type="flex" justify="end" style="margin-top:20px">
                  <el-col :span="4" >
                    <el-button>取消</el-button>
-                   <el-button @click="AdvantageComplete">完成</el-button>
+                   <el-button @click="splitterComplete(1)">完成</el-button>
                  </el-col>
                </el-row>
              </div>
@@ -153,20 +152,20 @@
          <div class="expect-position-party">
            <div class="expp-header">
              <span>期望职位</span>
-             <span>添加</span>
+             <!--<span>添加</span>-->
            </div>
-           <div class="expect-position-main-show" v-if="expectedIsShow">
-              <div class="expect-position-main-item">
+           <div class="expect-position-main-show" v-show="expectedIsShow">
+              <div class="expect-position-main-item" >
                 <div class="epmi-info">
-                   <span>web前端</span>
-                   <span>10k-15K</span>
-                   <span>移动互联网</span>
-                   <span>北京</span>
+                   <span>{{form2.expectPosition}}</span>
+                   <span>{{showSalary}}</span>
+                   <span>{{form2.industry}}</span>
+                   <span>{{showAddress}}</span>
                 </div>
-                <span class="epmi-editorBtn" @click="ExceptEditor">编辑</span>
+                <span class="epmi-editorBtn" @click="splitterEditor(2)">编辑</span>
               </div>
            </div>
-           <div class="expect-position-main-editor" v-if="!expectedIsShow">
+           <div class="expect-position-main-editor" v-show="!expectedIsShow">
              <h4>编辑期望职位</h4>
              <div class="epme-mian">
                <el-form ref="form2" :model="form2" >
@@ -181,8 +180,29 @@
                    <el-col :span="10">
                      <div class="title">薪资要求</div>
                      <el-form-item >
-                       <el-input v-model="form2.salary" placeholder="例如：15-16K"></el-input>
-                     </el-form-item>
+                       <el-row type="flex" justify=space-between>
+                         <el-col >
+                           <el-select v-model="form2.salary1" placeholder="请选择" @change="calcSalar2">
+                             <el-option
+                               v-for="item in salaryData1"
+                               :key="item"
+                               :label="item"
+                               :value="item">
+                             </el-option>
+                           </el-select>
+                         </el-col>-
+                         <el-col>
+                           <el-select v-model="form2.salary2" placeholder="请选择">
+                             <el-option
+                               v-for="item in salaryData2"
+                               :key="item"
+                               :label="item"
+                               :value="item">
+                             </el-option>
+                           </el-select>
+                         </el-col>
+                       </el-row>
+                      </el-form-item>
                    </el-col>
                  </el-row>
                  <el-row  type="flex" justify=space-between>
@@ -205,7 +225,7 @@
                        <el-cascader
                          expand-trigger="hover"
                          :options="cityData"
-                         v-model="form2.selectedOptions"
+                         v-model="form2.selectedAddress"
                          @change="handleChange" style="width: 100%">
                        </el-cascader>
                      </el-form-item>
@@ -214,7 +234,7 @@
                  <el-row  type="flex" justify="end" style="margin-top:20px">
                    <el-col :span="4" >
                      <el-button>取消</el-button>
-                     <el-button @click="ExceptComplete">完成</el-button>
+                     <el-button @click="splitterComplete(2)">完成</el-button>
                    </el-col>
                  </el-row>
                </el-form>
@@ -225,24 +245,48 @@
          <div class="person-advantage">
            <div class="person-advantage-show" >
              <div class="pas-header">工作经历</div>
-             <div class="pas-wrapper" v-if="workExperienceIsShow">
-               <div><span @click="workExperienceEditor">编辑</span></div>
-               <div class="pas-main" v-html="textArea" ></div>
+             <div class="pas-wrapper" v-show="workExperienceIsShow">
+               <div><span @click="splitterEditor(3)">编辑</span></div>
+               <div class="pas-main" v-html="workExperienceTextArea" ></div>
              </div>
            </div>
-           <div class="person-advantage-editor" v-if="!workExperienceIsShow">
+           <div class="person-advantage-editor" v-show="!workExperienceIsShow">
              <h4>编辑工作经历</h4>
              <quill-editor
-               v-model="textArea"
+               v-model="workExperienceTextArea"
                :options="editorOption"
-               ref="myQuillEditor"
-               @change="onEditorBlur($event)"
+               ref="myQuillEditor2"
              >
              </quill-editor>
              <el-row  type="flex" justify="end" style="margin-top:20px">
                <el-col :span="4" >
                  <el-button>取消</el-button>
-                 <el-button @click="workExperienceComplete">完成</el-button>
+                 <el-button @click="splitterComplete(3)">完成</el-button>
+               </el-col>
+             </el-row>
+           </div>
+         </div>
+         <!--项目经验-->
+         <div class="person-advantage">
+           <div class="person-advantage-show" >
+             <div class="pas-header">项目经验</div>
+             <div class="pas-wrapper" v-show="projectExperienceIsShow">
+               <div><span @click="splitterEditor(4)">编辑</span></div>
+               <div class="pas-main" v-html="projectExceptionTextArea" ></div>
+             </div>
+           </div>
+           <div class="person-advantage-editor" v-show="!projectExperienceIsShow">
+             <h4>编辑项目经验</h4>
+             <quill-editor
+               v-model="projectExceptionTextArea"
+               :options="editorOption"
+               ref="myQuillEditor3"
+             >
+             </quill-editor>
+             <el-row  type="flex" justify="end" style="margin-top:20px">
+               <el-col :span="4" >
+                 <el-button>取消</el-button>
+                 <el-button @click="splitterComplete(4)">完成</el-button>
                </el-col>
              </el-row>
            </div>
@@ -260,95 +304,180 @@
         data()
         {
           return{
+
+
+            //用户信息标识符
+            isShow:true,
+            //个人优势表示符
+            advantageIsShow:true,
+            //期待职位标识符
+            expectedIsShow:true,
+            //工作经历标识符
+            workExperienceIsShow:true,
+            //项目经验
+            projectExperienceIsShow:true,
+            //个人优势信息
+            advantageTextArea:"",
+            //工作经验信息
+            workExperienceTextArea:"",
+            //项目经验
+            projectExceptionTextArea:"",
+
+            //用户信息表单
             form:{
-              name:"",
-              workState:"",
+              name:"姓名",
+              workState:"工作状态",
               sex:'',
               startDate:"",
               birthDate:"",
-              wxCode:"",
-              phone:"",
-              email:"",
-              eduction:""
+              wxCode:"微信号",
+              phone:"手机号",
+              email:"邮箱地址",
+              eduction:"学历"
             },
+            //期望职位表单
             form2:{
-              salary:"",
-              expectPosition:"",
-              industry:"",
-              selectedOptions:"",
+                salary1:"",
+                salary2:"",
+                expectPosition:"期望职位",
+                industry:"选择行业",
+                selectedAddress:[]
             },
-            isShow:true,
-            advantageIsShow:true,
-            expectedIsShow:true,
-            workExperienceIsShow:true,
+            //薪资数据
+            salaryData1:["5K","10K","15K","20K","30K","40K","50K","90K","120K","150K"],
+            salaryData2:[],
+            //行业
             industryData:['互联网/IT/电子/通信','广告/传媒/文化/体育','金融','教育培训','交通/物流/贸易/零售','专业服务'],
-            textArea:"",
+            //工作状态
             workStates:['离职-随时到岗','在职-考虑机会','在职-月内到岗'],
+            //学历
             eductionData:['大专以下','大专','本科','硕士','博士','博士以上'],
+            //富文本配置项
             editorOption: {
               placeholder:`请按照有序的条例将自己的优势罗列出来`,
               modules: {
                 toolbar: [
-                    [{'list':'bullet'},{'list':'ordered'}]
+                    [{'list':'bullet'},{'list':'ordered'}],
+                    ['bold','italic','underline','strike'],
+                    [{'header':[1,2,3,4,5,6]}]
                   ]
               }
             },
+            //城市信息
             cityData:[
-              {value:"北京",label:"北京",children:[{value:"北京",label:"北京"}]},
-              {value:"天津",label:"天津",children:[{value:"天津",label:"天津"}]},
+              {value:"北京",label:"北京"},
+              {value:"天津",label:"天津"},
               {value:"河南",label:"河南",children:[{value:"郑州",label:"郑州"},{value:"洛阳",label:"洛阳"}]}
              ]
             }
           },
         methods:{
-          complete()
+          splitterComplete(indent)
           {
-            this.isShow=true;
-            console.log("info",this.form);
+            switch (indent)
+            {
+              case 0:
+                this.isShow=true;
+                break;
+              case 1:
+                this.advantageIsShow=true;
+                break;
+              case 2:
+                this.expectedIsShow=true;
+                break;
+              case 3:
+                this.workExperienceIsShow=true;
+                break;
+              case 4:
+                this.projectExperienceIsShow=true;
+                break;
+            }
           },
-          editor()
+          splitterEditor(indent)
           {
-            this.isShow=false;
+            switch (indent)
+            {
+              case 0:
+                this.isShow=false;
+                break;
+              case 1:
+                this.advantageIsShow=false;
+                break;
+              case 2:
+                this.expectedIsShow=false;
+                break;
+              case 3:
+                this.workExperienceIsShow=false;
+                break;
+              case 4:
+                this.projectExperienceIsShow=false;
+                break;
+
+            }
           },
-          onEditorBlur({  html, })
-          {
-            this.textArea=html
-          },
-          AdvantageComplete()
-          {
-            this.advantageIsShow=true;
-          },
-          AdvantageEditor()
-          {
-            this.advantageIsShow=false;
-          },
-          handleChange()
+          handleChange(event)
           {
 
+             console.log("event",event);
           },
-          ExceptEditor()
+          calcSalar2:function()
           {
-            this.expectedIsShow=false;
-          },
-          ExceptComplete()
-          {
-            console.log("点击执行了")
-            this.expectedIsShow=true;
-          },
-          workExperienceComplete()
-          {
-            this.workExperienceIsShow=true
-          },
-          workExperienceEditor()
-          {
-            this.workExperienceIsShow=false
+            let salary1=parseInt(this.form2.salary1.substring(0,this.form2.salary1.length-1));
+            console.log("salary",salary1)
+            let salary2=[]
+            for(let i=0;i<5;i++)
+            {
+              salary2.push(`${salary1+i}K`);
+            }
+            this.salaryData2=salary2;
+
           }
-
-
         },
-      components:{
+       components:{
           quillEditor,
-      }
+       },
+       computed:{
+          workYears:function()
+          {
+            if(this.form.startDate)
+            {
+              let now=new Date().getFullYear();
+              let startWork=new Date(this.form.startDate).getFullYear();
+              return `${now-startWork}年经验`
+            }else
+            {
+              return "工作年限"
+            }
+
+          },
+          showSalary:function()
+          {
+            if(this.form2.salary1&&this.form2.salary2)
+            {
+              return this.form2.salary1+"-"+this.form2.salary2;
+            }else{
+              return '期望薪资'
+            }
+          },
+         showAddress:function()
+         {
+           let selectedAdderss=this.form2.selectedAddress
+           if(selectedAdderss.length==0)
+           {
+             return "期望地点";
+           }else{
+             if(selectedAdderss.length==1)
+             {
+               return selectedAdderss[0]
+             }else
+             {
+               return selectedAdderss[1]
+             }
+
+           }
+         }
+
+       }
     }
 </script>
 
