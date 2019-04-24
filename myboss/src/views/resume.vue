@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="resume-container">
        <div class="resume-main">
           <!--求职者的个人信息区-->
@@ -293,12 +294,16 @@
          </div>
        </div>
     </div>
+    <!--footer-->
+      <!--<footer-nav></footer-nav>-->
+  </div>
 </template>
 
 <script>
     import {quillEditor, Quill} from 'vue-quill-editor'
     import 'quill/dist/quill.snow.css'
     import 'quill/dist/quill.snow.css'
+    import footerNav from "../components/footerNav"
     export default {
         name: "resume",
         data()
@@ -435,6 +440,7 @@
         },
        components:{
           quillEditor,
+          footerNav
        },
        computed:{
           workYears:function()
@@ -484,7 +490,7 @@
 <style scoped lang="scss">
   .resume-container
   {
-    width: 1200px;
+    width: 1000px;
     height:800px;
     margin:0 auto;
     .resume-main

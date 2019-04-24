@@ -2,7 +2,7 @@
   <div class="header-nav">
     <div class="header-main">
       <div class="header-main-left">
-        <span class="hml-title">BOSS 直聘</span>
+        <span class="hml-title">科大直聘</span>
         <div class="city-part" v-if="false">
           <i></i>
           <span>北京</span>
@@ -42,8 +42,6 @@
         methods:{
           changeBarTitle(index)
           {
-            console.log("触发了")
-            console.log(index);
             this.$store.commit("CHANGETITLE",index);
           }
         },
@@ -65,7 +63,7 @@
       display:flex;
       justify-content:space-between;
       align-items: center;
-      width:1200px;
+      width:1000px;
       height: 100%;
       margin:0 auto;
 

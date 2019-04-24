@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="companyDetails-container">
       <div class="companyDetails-top">
         <div class="companyDetails-top-main">
@@ -93,15 +94,19 @@
          </div>
       </div>
     </div>
+    <!--底部footer-->
+    <footer-nav></footer-nav>
+  </div>
 </template>
 
 <script>
+    import footerNav from "../components/footerNav"
     export default {
         name: "companyDetails",
         data()
         {
           return{
-            listData:[1,2,3,4],
+            listData:[1,2,3],
             listData2:[0,1,2]
           }
         },
@@ -119,6 +124,9 @@
               id:"12345598878"
               }})
           }
+      },
+      components:{
+        footerNav
       }
     }
 </script>
@@ -138,7 +146,7 @@
          justify-content:space-between;
          align-items: center;
         //border:1px solid red;
-         width:1200px;
+         width:1000px;
          margin:0 auto;
          //顶部左半部分
          .companyDetails-top-left
@@ -210,7 +218,7 @@
       margin-top:20px;
       .hot-position-wrapper
       {
-         width: 1200px;
+         width: 1000px;
          margin:0 auto;
       //   border:1px solid #aaa;
         .hot-position-header
@@ -243,7 +251,7 @@
           {
              display: flex;
              justify-content: space-between;
-             width:20%;
+             width:25%;
              box-sizing: border-box;
              padding:19px 20px 17px;
              background-color: #fff;
@@ -288,7 +296,7 @@
        margin-bottom: 15px;
       .company-details-main-wrapper
       {
-        width: 1200px;
+        width: 1000px;
         margin:0 auto;
         .Function-introduction,.company-introduction,.product-introduction,.address-introduction
         {

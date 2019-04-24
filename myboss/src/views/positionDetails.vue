@@ -1,21 +1,20 @@
 <template>
+  <div>
     <div class="position-detail-container">
       <div class="position-detail-top">
          <div class="position-top-main">
             <div class="position-main-left">
               <div class="pml-title">
-                <h1>后端开发工程师-EA</h1>
-                <span>18K-25K*15薪</span>
+                <h1>{{positionData.name}}</h1>
+                <span>{{positionData.salary}}k</span>
               </div>
               <div class="pml-require">
-                <span>北京</span>
-                <span>3-5年</span>
-                <span>本科</span>
+                <span>{{positionData.city}}</span>
+                <span>{{positionData.handlerWorkExperience}}年</span>
+                <span>{{positionData.handerEduction}}</span>
               </div>
-              <div class="pml-welfare">
-                <span>五险一金</span>
-                <span>医疗保险</span>
-                <span>定期检查</span>
+              <div class="pml-welfare" >
+                <span v-for="item in handlerTeam">{{item}}</span>
               </div>
             </div>
             <div class="position-main-right">
@@ -37,8 +36,8 @@
             <div style="display: flex;align-items: center">
               <img src="https://img2.bosszhipin.com/boss/avatar/avatar_15.png?x-oss-process=image/resize,w_100,limit_0"/>
               <div class="recruiter">
-                <div>张先生</div>
-                <div>人事经理</div>
+                <div>{{positionData.recruiter}}</div>
+                <div>{{positionData.recruiterPosition}}</div>
               </div>
             </div>
             <div class="pdimr-reaction"><i class="iconfont icon-shoucang "></i> 感兴趣</div>
@@ -46,12 +45,12 @@
             <div class="pdim-company-introduce">
               <span>公司基本信息：</span>
               <div>
-                <span><i class="iconfont icon-more " ></i>&nbsp;&nbsp;&nbsp;字节跳动</span>
+                <span><i class="iconfont icon-more " ></i>&nbsp;&nbsp;&nbsp;{{positionData.company.name}}</span>
                 <span><i class="iconfont icon-zhexian" ></i>&nbsp;&nbsp;&nbsp;不需要融资</span>
               </div>
               <div>
                 <span><i class="iconfont icon-yonghu" ></i>&nbsp;&nbsp;&nbsp; 10000人以上</span>
-                <span><i class="iconfont icon-jigou" ></i> &nbsp;&nbsp;&nbsp; http://www.bytedance.com</span>
+                <span><i class="iconfont icon-jigou" ></i> &nbsp;&nbsp;&nbsp; {{positionData.company.net}}</span>
               </div>
             </div>
           </div>
@@ -66,42 +65,39 @@
           <div class="team-introduction">
             <h3 class="Function-title ">团队介绍</h3>
             <div class="team-introduction-content">
-               <span>美女如云</span>
-               <span>公司氛围好</span>
-               <span>地铁周边</span>
+               <span v-for="temp in companyTeam">{{temp}}</span>
             </div>
           </div>
           <!--公司介绍-->
           <div class="company-introduce">
             <h3 class="Function-title ">公司简介</h3>
-            <p>北京立思辰科技股份有限公司(以下简称“立思辰”)，创立于1999年1月8日。总部位于北京，并在上海、广州、成都、沈阳、南京等20余个城市设立分、子公司。 2009年10月，立思辰成为中国创业板首批上市企业之一，于深交所发行上市, 股票代码(SZ300010)。秉承“厚德载物、自强不息”的发展理念，立思辰把握历史机遇，
-              持续创新，历经十几年稳健增长，旗下业务现已发展形成两大产业集团：教育集团与信息安全科技集团。 </p>
+            <p>{{positionData.company.introduce}} </p>
           </div>
           <!--公司介绍-->
           <div class="Industry-information">
             <h3 class="Function-title ">工商信息</h3>
             <div class="company-introduce-main-wrapper">
-              <p>中文未来教育科技（北京）有限公司</p>
+              <p>{{positionData.company.name}}</p>
               <div class="company-introduce-main">
                  <div class="company-introduce-item">
                    <span>法人代表：</span>
-                   <span>窦昕</span>
+                   <span>{{businessInfo[0]}}</span>
                  </div>
                 <div class="company-introduce-item">
                   <span>注册资金：</span>
-                  <span>8000万人民币</span>
+                  <span>{{businessInfo[1]}}</span>
                 </div>
                 <div class="company-introduce-item">
                   <span>成立时间：</span>
-                  <span>2015-05-18</span>
+                  <span>{{businessInfo[2]}}</span>
                 </div>
                 <div class="company-introduce-item">
                   <span>企业类型：</span>
-                  <span>有限责任公司（法人独资）</span>
+                  <span>{{businessInfo[3]}}</span>
                 </div>
                 <div class="company-introduce-item">
                   <span>经营状态：</span>
-                  <span>开业</span>
+                  <span>{{businessInfo[4]}}</span>
                 </div>
               </div>
             </div>
@@ -109,21 +105,148 @@
           <!--工作地址-->
           <div class="job-address">
             <h3 class="Function-title ">工作地址</h3>
-            <p>北京市海定区鲤城大厦</p>
+            <p>{{positionData.company.address}}</p>
           </div>
         </div>
       </div>
     </div>
+    <!--底部footer-->
+    <footer-nav></footer-nav>
+  </div>
 </template>
 
 <script>
+    import footerNav from "../components/footerNav"
     export default {
         name: "positionDetails",
         data()
         {
           return{
-            hmtlContent:"<p>岗位职责：</p><ol><li>负责社区产品的前端开发，包括web、wap站及小程序等产品；&nbsp;&nbsp;</li><li>应用新技术，设计开发极具用户体验的前端应用；&nbsp;<span style=\"font-weight: bold;\"></span></li></ol><p>任职要求：</p><ol><li>与产品、后端沟通，协同进行前后端分离的开发模式。&nbsp;&nbsp;&nbsp;</li><li>深刻理解Web标准，对可用性、稳定性、可访问性等相关知识有实际的了解和实践经验，具有模块化编程 思想、良好的代码书写习惯；&nbsp;</li><li>3年以上前端开发经验，对前端工程化和组件化有较深的理解；&nbsp;</li><li>&nbsp;逻辑思维和学习能力强，较强的沟通协作能力，具有团队合作精神。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></li></ol>"
+            hmtlContent:"",//职能要求
+            handlerTeam:[],//团队福利
+            positionId:"",//存放职位id
+            positionData:"" ,
+            businessInfo:[],//工商信息
+            companyTeam:[],//公司团队
+
           }
+        },
+        methods:{
+          getPositionDetails(id)
+          {
+            this.$axios.get(`position/positionDetail/${id}`).then(res=>{
+              //console.log("res",res);
+              if(res.code==200)
+              {
+                let handlerWorkExperience="",
+                    handerEduction="",
+                    handlerFancing="",
+                    handlerScale="";
+                switch (res.data.workExperience)
+                {
+                  case "0" :
+                    handlerWorkExperience="应届生";
+                    break;
+                  case "1" :
+                    handlerWorkExperience="1-3";
+                    break;
+                  case "2" :
+                    handlerWorkExperience="3-5";
+                    break;
+                  case "3" :
+                    handlerWorkExperience="5-10";
+                    break;
+                  case "4" :
+                    handlerWorkExperience="10+";
+                    break;
+                };
+                switch (res.data.education)
+                {
+                  case "0" :
+                    handerEduction="专科";
+                    break;
+                  case "1" :
+                    handerEduction="本科";
+                    break;
+                  case "2" :
+                    handerEduction="硕士";
+                    break;
+                  case "3" :
+                    handerEduction="博士";
+                    break;
+                  case "4" :
+                    handerEduction="博士以上";
+                    break;
+                };
+                switch (res.data.company.financing)
+                {
+                  case "0" :
+                    handlerFancing="未融资";
+                    break;
+                  case "1" :
+                    handlerFancing="天使轮";
+                    break;
+                  case "2" :
+                    handlerFancing="A轮";
+                    break;
+                  case "3" :
+                    handlerFancing="B轮";
+                    break;
+                  case "4" :
+                    handlerFancing="C轮";
+                    break;
+                  case "5" :
+                    handlerFancing="D轮";
+                    break;
+                  case "6" :
+                    handlerFancing="已上市";
+                    break;
+                  case "7" :
+                    handlerFancing="不需要融资";
+                    break;
+                }
+                switch (res.data.company.scale)
+                {
+                  case "0" :
+                    handlerScale="0-20人";
+                    break
+                  case "1" :
+                    handlerScale="20-99人";
+                    break;
+                  case "2" :
+                    handlerScale="100-499人";
+                    break;
+                  case "3" :
+                    handlerScale="500-999";
+                    break;
+                  case "4" :
+                    handlerScale="10000人以上"
+                    break;
+                }
+                res.data.handlerWorkExperience=handlerWorkExperience;
+                res.data.handerEduction=handerEduction;
+                res.data.handlerFancing=handlerFancing;
+                res.data.handlerScale=handlerScale;
+                this.positionData=res.data;
+                this.hmtlContent=res.data.Function;
+                this.handlerTeam=res.data.team.split("，");
+                this.businessInfo=res.data.company.business.split("，");
+                this.companyTeam=res.data.company.team.split("，");
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("拉取数据错误，请检查你的网络")
+            })
+          }
+        },
+        components:{
+          footerNav
+        },
+        created()
+        {
+          //console.log("id",this.$route.query.id);
+          this.positionId=this.$route.query.id;
+          this.getPositionDetails(this.$route.query.id);
         }
     }
 </script>
@@ -138,7 +261,7 @@
       .position-top-main
       {
         display: flex;
-        width:1200px;
+        width:1000px;
         height: 100%;
         padding:24px 0;
         margin:0 auto;
@@ -226,7 +349,7 @@
     //中间要求以及介绍
     .position-detail-introduce
     {
-      width: 1200px;
+      width: 1000px;
       margin: 20px auto;
       //border:1px solid #aaa;
       .position-detail-introduce-main

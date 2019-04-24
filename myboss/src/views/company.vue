@@ -1,4 +1,5 @@
 <template>
+ <div>
    <div class="company-party-container">
        <div class="company-main-wrapper">
           <!--顶部筛选区-->
@@ -64,9 +65,15 @@
          </div>
        </div>
    </div>
+   <!--底部-->
+   <footer-nav></footer-nav>
+</div>
+
+
 </template>
 
 <script>
+    import footerNav from "../components/footerNav"
     export default {
         name: "company",
       data()
@@ -124,6 +131,10 @@
           {
             this.$router.push("/companyDetails");
           }
+        },
+      components:
+        {
+          footerNav
         }
     }
 </script>
@@ -134,7 +145,7 @@
     margin-bottom: 30px;
     .company-main-wrapper
     {
-      width:1200px;
+      width:1000px;
       margin:0 auto;
       //综合筛选区
       .filter-part
@@ -267,7 +278,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 1200px;
+        width: 1000px;
         height: 100px;
         background-color: #fff;
         margin:0 auto;
