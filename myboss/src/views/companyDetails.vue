@@ -7,11 +7,11 @@
           <div class="companyDetails-top-left">
             <img src="https://img.bosszhipin.com/beijin/mcs/chatphoto/20190221/35ac1752b0590f2084febfa7410487408bf8a6ce229014626bb7baabb31717e5.jpg?x-oss-process=image/resize,w_120,limit_0"/>
             <div class="ctl-info">
-                <div class="ctl-info-title">今日头条</div>
+                <div class="ctl-info-title">{{companyData.name}}</div>
                 <div class="ctl-info-tags">
-                  <span>不需要融资</span>
-                  <span>10000人以上</span>
-                  <span>移动互联网</span>
+                  <span>{{companyData.handlerFancing}}</span>
+                  <span>{{companyData.handlerScale}}</span>
+                  <span>{{companyData.industry.name}}</span>
                 </div>
             </div>
           </div>
@@ -19,7 +19,7 @@
           <div class="companyDetails-top-right">
              <div class="ctr-left">
                 <div class="number-of-position">
-                    9307
+                    {{companyAllPositions.length}}
                 </div>
                 <div class="position-text">
                   在招职位
@@ -33,16 +33,16 @@
          <div class="hot-position-wrapper">
            <div class="hot-position-header">
              <h3>热招职位</h3>
-             <span class="hot-position-more" @click="goPosition">查看全部的9317个职位</span>
+             <span class="hot-position-more" @click="goPosition" v-if="companyAllPositions.length > 4">查看全部的&nbsp;&nbsp;{{companyAllPositions.length}}&nbsp;&nbsp;个职位</span>
            </div>
            <div class="hot-position-item-wrapper">
-                 <div class="hot-position-item"  v-for="item in listData" @click="goPositionDetail" >
-                    <div class="hot-position-item-left">
-                       <span>web前端工程师</span>
-                       <span>1-3年&nbsp;&nbsp;|&nbsp;&nbsp;本科&nbsp;&nbsp;|&nbsp;&nbsp;北京 </span>
+                 <div class="hot-position-item"  v-for="temp in companyAllPositions" @click="goPositionDetail"  :data-id="temp._id">
+                    <div class="hot-position-item-left" >
+                       <span>{{temp.name}}</span>
+                       <span>{{temp.handlerWorkExperience}}年&nbsp;&nbsp;|&nbsp;&nbsp;{{temp.handerEduction}}&nbsp;&nbsp;|&nbsp;&nbsp;{{temp.city}} </span>
                     </div>
                     <div class="hot-position-item-right">
-                      10K-20K
+                      {{temp.salary}}K
                     </div>
                  </div>
            </div>
@@ -56,32 +56,31 @@
              <h3 class="Function-title ">高管介绍</h3>
              <div class="top-manager-info">
                 <div class="img-wrapper">
-                   <img src="https://img.bosszhipin.com/beijin/mcs/chatphoto/20190331/16dcf0802e8d7f89d6359796df4c263c357629e26750e077a33fbe1e7139b9e1.jpg?x-oss-process=image/resize,w_100,limit_0"/>
+                   <img :src="companyData.ceo.avatar"/>
                    <div class="ceo-info">
-                     <span>张一鸣</span>
-                     <span>CEO</span>
+                     <span>{{companyData.ceo.name}}</span>
+                     <span>{{companyData.ceo.position}}</span>
                    </div>
                 </div>
-                <p>张一鸣，男，1983年出生于福建龙岩，北京字节跳动科技有限公司创始人、CEO，今日头条创始人、原CEO。该公司推出了基于数据挖掘的推荐引擎产品“今日头条”和内涵段子、火山小视频、抖音、悟空问答等产品。</p>
+                <p>{{companyData.ceo.desc}}</p>
              </div>
            </div>
            <!--公司介绍-->
            <div class="company-introduction">
              <h3 class="Function-title ">公司介绍</h3>
              <div class="company-introduce-main">
-               今日头条，抖音是北京字节跳动科技有限公司开发的一款基于数据挖掘的推荐引擎产品，为用户推荐信息，提供连接人与信息的服务的产品。由张一鸣于2012年3月创建，2012年8月发布第一个版本。 [1]
-               2016年9月20日，今日头条宣布投资10亿元用以补贴短视频创作。后独立孵化 UGC 短视频平台火山小视频 [2] 。2017年1月，今日头条中国新第一批认证的8组独立音乐人入驻今日头条。2017年2月2日，全资收购美国短视频应用Flipagram
+               {{companyData.introduce}}
              </div>
            </div>
            <!--产品介绍-->
-           <div class="product-introduction">
+           <div class="product-introduction" v-if="productsData.length > 0">
              <h3 class="Function-title ">产品介绍</h3>
              <div class="product-introduction-main">
-               <div class="product-introduction-item" v-for="item in listData2">
-                 <img class="pii-img" src="https://img.bosszhipin.com/beijin/mcs/chatphoto/20190331/7e9bedad4e2ef8aee184385f3cb401b9357629e26750e077a33fbe1e7139b9e1.jpg?x-oss-process=image/resize,w_100,limit_0" />
+               <div class="product-introduction-item" v-for="element in productsData">
+                 <img class="pii-img" :src="element.img" />
                  <div class="pii-right">
-                   <span>抖音短视频&nbsp;&nbsp;|&nbsp;&nbsp;记录你的美好生活</span>
-                   <span>http://www.douyin.com</span>
+                   <span>{{element.name}}&nbsp;&nbsp;|&nbsp;&nbsp;{{element.desc}}</span>
+                   <span v-if="element.net">{{element.net}}</span>
                  </div>
                </div>
              </div>
@@ -89,7 +88,7 @@
            <!--公司地址-->
            <div class="address-introduction">
              <h3 class="Function-title ">公司地址</h3>
-              <p>北京市海定区中航广场</p>
+              <p>{{companyData.address}}</p>
            </div>
          </div>
       </div>
@@ -106,27 +105,172 @@
         data()
         {
           return{
-            listData:[1,2,3],
+            companyId:"",
+            companyData:"",
+            companyAllPositions:[],
+            productsData:[],
             listData2:[0,1,2]
           }
         },
       methods:{
-
           goPosition()
           {
             this.$router.push({path:"/position",query:{
               id:"今日头条"
               }})
           },
-          goPositionDetail()
+          goPositionDetail(event)
           {
+            let id = event.currentTarget.dataset.id;
             this.$router.push({path:"/positionDetail",query:{
-              id:"12345598878"
-              }})
+              id
+              }});
+            this.$store.commit("CHANGETITLE",1);
+          },
+          getCompanyDetailData()
+          {
+            this.$axios.get(`company/companyDetail/${this.companyId}`).then(res=>{
+              if(res.code==200)
+              {
+                let handlerFancing="";
+                let handlerScale="";
+                switch (res.data.financing)
+                {
+                  case "0" :
+                    handlerFancing="未融资";
+                    break;
+                  case "1" :
+                    handlerFancing="天使轮";
+                    break;
+                  case "2" :
+                    handlerFancing="A轮";
+                    break;
+                  case "3" :
+                    handlerFancing="B轮";
+                    break;
+                  case "4" :
+                    handlerFancing="C轮";
+                    break;
+                  case "5" :
+                    handlerFancing="D轮";
+                    break;
+                  case "6" :
+                    handlerFancing="已上市";
+                    break;
+                  case "7" :
+                    handlerFancing="不需要融资";
+                    break;
+                }
+                switch (res.data.scale)
+                {
+                  case "0" :
+                    handlerScale="0-20人";
+                    break
+                  case "1" :
+                    handlerScale="20-99人";
+                    break;
+                  case "2" :
+                    handlerScale="100-499人";
+                    break;
+                  case "3" :
+                    handlerScale="500-999";
+                    break;
+                  case "4" :
+                    handlerScale="10000人以上"
+                    break;
+                }
+                res.data.handlerFancing=handlerFancing;
+                res.data.handlerScale=handlerScale;
+                this.companyData=res.data;
+
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("拉取数据失败，请检查网络连接")
+            })
+          },
+          getCompanyAllPositions()
+          {
+            this.$axios.get(`position/company/${this.companyId}`).then(res=>{
+              if(res.code==200)
+              {
+                if(res.data.length)
+                {
+                  res.data.forEach(item=>{
+                    let  handlerWorkExperience="";
+                    let  handerEduction="";
+                    switch (item.workExperience)
+                    {
+                      case "0" :
+                        handlerWorkExperience="应届生";
+                        break;
+                      case "1" :
+                        handlerWorkExperience="1-3";
+                        break;
+                      case "2" :
+                        handlerWorkExperience="3-5";
+                        break;
+                      case "3" :
+                        handlerWorkExperience="5-10";
+                        break;
+                      case "4" :
+                        handlerWorkExperience="10+";
+                        break;
+                    };
+                    switch (item.education)
+                    {
+                      case "0" :
+                        handerEduction="专科";
+                        break;
+                      case "1" :
+                        handerEduction="本科";
+                        break;
+                      case "2" :
+                        handerEduction="硕士";
+                        break;
+                      case "3" :
+                        handerEduction="博士";
+                        break;
+                      case "4" :
+                        handerEduction="博士以上";
+                        break;
+                    };
+                    item.handlerWorkExperience=handlerWorkExperience;
+                    item.handerEduction=handerEduction;
+                  });
+                  this.companyAllPositions=res.data;
+                }
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("数据获取失败，请检查网络连接")
+            })
+          },
+          getCompanyAllProducts()
+          {
+            this.$axios.get(`prod/company/${this.companyId}`).then(res=>{
+              if(res.code==200)
+              {
+                if(res.data.length)
+                {
+                  this.productsData=res.data;
+                }
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("获取数据错误,请检查网络连接")
+            })
           }
       },
-      components:{
+      components: {
         footerNav
+      },
+      created(){
+          console.log("id",this.$route.query.id);
+          this.companyId=this.$route.query.id;
+          this.getCompanyDetailData();
+          this.getCompanyAllPositions();
+          this.getCompanyAllProducts();
       }
     }
 </script>
@@ -245,13 +389,13 @@
         .hot-position-item-wrapper
         {
           display: flex;
-          justify-content: space-between;
           margin:15px 0;
           .hot-position-item
           {
              display: flex;
              justify-content: space-between;
              width:25%;
+             margin-left: 25px;
              box-sizing: border-box;
              padding:19px 20px 17px;
              background-color: #fff;

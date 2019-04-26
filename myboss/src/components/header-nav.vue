@@ -16,11 +16,11 @@
           <router-link to="">资讯</router-link>
         </div>
       </div>
-      <div class="header-main-right" v-if="this.$store.state.userInfo.phone">
+      <div class="header-main-right" v-if="this.$store.state.userInfo.phone" >
         <router-link to="">消息</router-link>
-        <router-link to="/resume">简历</router-link>
-        <span>.</span>
-        <router-link to="">上传</router-link>
+        <router-link to="/resume" :class= "this.$store.state.selectedBar == 3 ? 'active' : '' "  @click.native="changeBarTitle(3)">简历</router-link>
+        <!--<span>.</span>-->
+        <!--<router-link to="">上传</router-link>-->
         <router-link to="">付卓宁</router-link>
         <div class="hmr-avatar">
 
@@ -126,6 +126,10 @@
           &:hover{
             color:$color;
           }
+          &.active
+          {
+            color:$color !important;
+          }
         }
 
         .hmr-avatar{
@@ -133,7 +137,8 @@
           width:30px;
           height:30px;
           border-radius:50%;
-          background-color:#409eff;
+          background-image: url("https://img2.bosszhipin.com/boss/avatar/avatar_15.png");
+          background-size: cover;
           margin-right:15px;
         }
       }

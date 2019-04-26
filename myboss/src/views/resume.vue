@@ -7,18 +7,18 @@
               <!--展示区-->
               <div class="resume-main-show" v-show="isShow">
                  <div class="resume-top-left">
-                    <div class="rtl-name">{{form.name}}</div>
+                    <div class="rtl-name">{{form.name}} &nbsp;<i v-if="this.form.sex=='男'" class="iconfont icon-nanxing" style=" color:#00C2B3;opacity: 0.5;"></i><i v-if="this.form.sex=='女'" class="iconfont icon-nvxing " style="font-size:16px;color:#FF9797;"></i></div>
                     <div class="rtl-work-state">
-                      <span>{{workYears}}</span>
-                      <span>{{form.eduction}}</span>
-                      <span>{{form.workState}}</span>
+                      <span><i class="iconfont icon-bangong "></i>&nbsp;&nbsp;{{workYears}}</span>
+                      <span><i class="iconfont icon-Highest "></i>&nbsp;&nbsp;{{form.education}}</span>
+                      <span><i class="iconfont icon-lizhi "></i>&nbsp;&nbsp;{{form.workState}}</span>
                     </div>
                     <div class="rtl-contact-away">
-                       <span>{{form.phone}}</span>
-                       <span>{{form.wxCode}}</span>
+                       <span><i class="iconfont icon-weibiaoti"></i>&nbsp;&nbsp;{{form.phone}}</span>
+                       <span><i class="iconfont icon-weixin "></i>&nbsp;&nbsp;{{form.wxCode}}</span>fot
                     </div>
                     <div class="rtl-email">
-                       {{form.email}}
+                      <i class="iconfont icon-youxiang"></i>&nbsp;&nbsp;{{form.email}}
                     </div>
                  </div>
                  <div class="resume-top-right">
@@ -40,12 +40,12 @@
                     <el-col :span="10">
                       <div class="title">我的学历</div>
                       <el-form-item >
-                        <el-select v-model="form.eduction" placeholder="请选择" style="width: 100%">
+                        <el-select v-model="form.education" placeholder="请选择" style="width: 100%">
                           <el-option
-                            v-for="item in eductionData"
-                            :key="item"
-                            :label="item"
-                            :value="item">
+                            v-for="item in    educationData"
+                            :key="item.value"
+                            :label="item.name"
+                            :value="item.name">
                           </el-option>
                         </el-select>
                       </el-form-item>
@@ -90,7 +90,7 @@
                     <el-col :span="10" >
                       <div class="title">电话</div>
                       <el-form-item >
-                        <el-input v-model="form.phone" placeholder="电话"></el-input>
+                        <el-input v-model="form.phone" placeholder="电话" :disabled="true"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="10">
@@ -107,9 +107,9 @@
                         <el-select v-model="form.workState" placeholder="请选择" style="width: 100%">
                           <el-option
                             v-for="item in workStates"
-                            :key="item"
-                            :label="item"
-                            :value="item">
+                            :key="item.value"
+                            :label="item.name"
+                            :value="item.name">
                           </el-option>
                         </el-select>
                       </el-form-item>
@@ -158,10 +158,10 @@
            <div class="expect-position-main-show" v-show="expectedIsShow">
               <div class="expect-position-main-item" >
                 <div class="epmi-info">
-                   <span>{{form2.expectPosition}}</span>
-                   <span>{{showSalary}}</span>
-                   <span>{{form2.industry}}</span>
-                   <span>{{showAddress}}</span>
+                   <span><i class="iconfont icon-zhiwei1"></i>&nbsp;&nbsp;{{form2.expectPosition}}</span>
+                   <span><i class="iconfont icon-xinzi"></i>&nbsp;&nbsp;{{showSalary}}</span>
+                   <span><i class="iconfont icon-hangye"></i>&nbsp;&nbsp;{{form2.industry}}</span>
+                   <span><i class="iconfont icon-dizhi"></i>&nbsp;&nbsp;{{showAddress}}</span>
                 </div>
                 <span class="epmi-editorBtn" @click="splitterEditor(2)">编辑</span>
               </div>
@@ -212,10 +212,10 @@
                      <el-form-item >
                        <el-select v-model="form2.industry" placeholder="请选择" style="width: 100%">
                          <el-option
-                           v-for="item in industryData"
-                           :key="item"
-                           :label="item"
-                           :value="item">
+                           v-for="item in industryDatas"
+                           :key="item.name"
+                           :label="item.name"
+                           :value="item.name">
                          </el-option>
                        </el-select>
                      </el-form-item>
@@ -294,8 +294,6 @@
          </div>
        </div>
     </div>
-    <!--footer-->
-      <!--<footer-nav></footer-nav>-->
   </div>
 </template>
 
@@ -332,13 +330,13 @@
             form:{
               name:"姓名",
               workState:"工作状态",
-              sex:'',
+              sex:'男',
               startDate:"",
               birthDate:"",
               wxCode:"微信号",
               phone:"手机号",
               email:"邮箱地址",
-              eduction:"学历"
+              education:"学历"
             },
             //期望职位表单
             form2:{
@@ -352,11 +350,11 @@
             salaryData1:["5K","10K","15K","20K","30K","40K","50K","90K","120K","150K"],
             salaryData2:[],
             //行业
-            industryData:['互联网/IT/电子/通信','广告/传媒/文化/体育','金融','教育培训','交通/物流/贸易/零售','专业服务'],
+            industryDatas:[],
             //工作状态
-            workStates:['离职-随时到岗','在职-考虑机会','在职-月内到岗'],
+            workStates:[{name:"离职-随时到岗",value:"0"},{name:"在职-考虑机会",value:"1"},{name:"在职-月内到岗",value:"2"}],
             //学历
-            eductionData:['大专以下','大专','本科','硕士','博士','博士以上'],
+            educationData:[{name:"大专",value:"0"},{name:'本科',value:"1"},{name:'硕士',value:"2"},{name:'博士',value:'3'},{name:'博士以上',value:"4"}],
             //富文本配置项
             editorOption: {
               placeholder:`请按照有序的条例将自己的优势罗列出来`,
@@ -373,31 +371,52 @@
               {value:"北京",label:"北京"},
               {value:"天津",label:"天津"},
               {value:"河南",label:"河南",children:[{value:"郑州",label:"郑州"},{value:"洛阳",label:"洛阳"}]}
-             ]
+             ],
+            //存储处理过后的workState
+             temporaryWorkState:"",
+            //存储处理过后的education
+            temporaryEducation:"",
+            //存储处理过后的薪资
+            temporarySalary:"",
+            //存储处理过后的行业
+            temporaryIndustry:"",
+            //存储处理过后的地点
+            temporaryPlace:"",
             }
           },
         methods:{
+          /**
+           * 完成分流函数
+           */
           splitterComplete(indent)
           {
             switch (indent)
             {
               case 0:
                 this.isShow=true;
+                this.savaResume(0);
                 break;
               case 1:
                 this.advantageIsShow=true;
+                this.savaResume(1);
                 break;
               case 2:
                 this.expectedIsShow=true;
+                this.savaResume(2);
                 break;
               case 3:
                 this.workExperienceIsShow=true;
+                this.savaResume(3);
                 break;
               case 4:
                 this.projectExperienceIsShow=true;
+                this.savaResume(4);
                 break;
             }
           },
+          /**
+           * 编辑分流函数
+           */
           splitterEditor(indent)
           {
             switch (indent)
@@ -422,20 +441,204 @@
           },
           handleChange(event)
           {
-
              console.log("event",event);
           },
+          /**
+           * 计算工资范围
+           */
           calcSalar2:function()
           {
             let salary1=parseInt(this.form2.salary1.substring(0,this.form2.salary1.length-1));
-            console.log("salary",salary1)
             let salary2=[]
-            for(let i=0;i<5;i++)
+            for(let i=1;i<6;i++)
             {
               salary2.push(`${salary1+i}K`);
             }
             this.salaryData2=salary2;
 
+          },
+          /***
+           * 获取行业数据
+           */
+          getIndustryListData()
+          {
+            this.$axios.get("industry/list").then(res=>{
+              if(res.code==200)
+              {
+                this.industryDatas=res.data;
+                this.getResumeData();
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("获取数据失败，请检查网络连接")
+            })
+          },
+          /**
+           * 对完善信息进行保存
+           */
+          savaResume(flage)
+          {
+            let params={};
+            if(flage=="2" )
+            {
+              if(this.form2.salary1 && this.form2.salary2)
+              {
+                 this.temporarySalary=this.form2.salary1.substring(0,this.form2.salary1.length-1)+"-"+this.form2.salary2.substring(0,this.form2.salary2.length-1);
+              }else{
+                return this.$message.info("请填写完薪资范围");
+              }
+              if(this.form2.selectedAddress.length)
+              {
+                this.temporaryPlace=this.form2.selectedAddress.join("-");
+              }
+              if(this.form2.industry!="选择行业")
+              {
+                let len=this.industryDatas.length
+                for(let i=0;i<len;i++)
+                {
+                  if(this.industryDatas[i].name==this.form2.industry)
+                  {
+                    this.temporaryIndustry=this.industryDatas[i]._id;
+                  }
+                }
+              }
+            }
+            if(flage=="0")
+            {
+
+              if(this.form.workState != "工作状态")
+              {
+                this.workStates.forEach(item=>{
+                  if(item.name==this.form.workState)
+                  {
+                    this.temporaryWorkState =item.value;
+                  }
+                })
+              }
+              if(this.form.eduction!= "学历")
+              {
+                this.educationData.forEach(item=>{
+                  if(item.name==this.form.eduction)
+                  {
+                    this.temporaryEducation=item.value;
+                  }
+                })
+              }
+            }
+            params={...this.form};
+            params.workState=this.temporaryWorkState;
+            params.eduction=this.temporaryEducation;
+            params.exceptionPosition=this.form2.expectPosition;
+            params.exceptSalary=this.temporarySalary;
+            params.exceptionIndustry= this.temporaryIndustry;
+            console.log("industry",this.temporaryIndustry)
+            params.exceptionPlace=this.temporaryPlace;
+            params.advantage=this.advantageTextArea;
+            params.workExperience=this.workExperienceTextArea;
+            params.projectExperience=this.projectExceptionTextArea;
+            this.$axios.post("resume/update",params).then(res=>{
+              if(res.code==200)
+              {
+                this.$message.success("保存成功");
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("保存失败,请检查网络连接")
+            })
+          },
+          /***
+           * 获取用户的简历信息
+           */
+          getResumeData()
+          {
+            let phone=this.$store.state.userInfo.phone;
+            if(phone)
+            {
+              this.$axios.get("resume/list/17630384057").then(res=>{
+                console.log("resumeData",res);
+                if(res.code==200)
+                {
+                  if(res.data.length)
+                  {
+                    let data=res.data[0];
+                    if(data.education != "学历" )
+                    {
+                       this.educationData.forEach(item=>{
+                         if(data.education == item.value)
+                         {
+                           data.education=item.name
+                         }
+                       })
+                    };
+                    if(data.workState != "工作状态")
+                    {
+                      this.workStates.forEach(item=>{
+                        if(data.workState == item.value)
+                        {
+                          data.workState=item.name;
+                        }
+                      })
+                    }
+                    if(data.exceptionIndustry != "选择行业")
+                    {
+                      if(this.industryDatas.length)
+                      {
+                        let len=this.industryDatas.length;
+                        for(let i=0 ; i< len; i++)
+                        {
+                          if(this.industryDatas[i]._id == data.exceptionIndustry)
+                          {
+
+                             this.form2.industry=this.industryDatas[i].name;
+                          }
+                        }
+
+                      }
+                    }
+                    if(data.exceptSalary )
+                    {
+                       let salaryArry=data.exceptSalary.split("-");
+                       this.form2.salary1=salaryArry[0]+"K";
+                       this.form2.salary2=salaryArry[1]+"K";
+                    }
+                    if(data.exceptionPlace)
+                    {
+                      console.log("请求到的数据",data.exceptionPlace)
+                      let placeArray=data.exceptionPlace.split("-");
+                      console.log("placeArray",placeArray);
+                      this.form2.selectedAddress=placeArray;
+                    }
+                    if(data.startDate)
+                    {
+                      this.form.startDate=new Date (data.startDate);
+
+                    }
+                    if(data.birthDate)
+                    {
+                      this.form.birthDate=new Date (data.birthDate);
+
+                    }
+                    let {name,workState,phone,wxCode,sex,education,email,exceptionPosition}=data;
+                    this.form ={...this.form,...{name,workState,phone,wxCode,sex,education,email}} ;
+                    this.form2.expectPosition=exceptionPosition;
+                    this.advantageTextArea=data.advantage;
+                    this.workExperienceTextArea=data.workExperience;
+                    this.projectExceptionTextArea=data.projectExperience;
+
+
+                  }else{
+                    this.$message.info("你还未完善简历，请尽快去完善！")
+                  }
+
+                }
+              }).catch(err=>{
+                 console.log(err);
+                 this.$message.error("获取简历信息错误，请检查网络连接！")
+              })
+            }else{
+              this.$message.error("获取用户信息错误");
+              return;
+            }
           }
         },
        components:{
@@ -482,6 +685,11 @@
 
            }
          }
+
+       },
+       created()
+       {
+         this.getIndustryListData();
 
        }
     }

@@ -22,7 +22,7 @@
                   <button>立即沟通</button>
                </div>
                <div class="resume-part">
-                 <span><i class="iconfont icon-jianli"></i> 完善在线简历</span>
+                 <span @click="goResume"><i class="iconfont icon-jianli"></i> 完善在线简历</span>
                  <span>新增简历附件</span>
                </div>
             </div>
@@ -46,10 +46,10 @@
               <span>公司基本信息：</span>
               <div>
                 <span><i class="iconfont icon-more " ></i>&nbsp;&nbsp;&nbsp;{{positionData.company.name}}</span>
-                <span><i class="iconfont icon-zhexian" ></i>&nbsp;&nbsp;&nbsp;不需要融资</span>
+                <span><i class="iconfont icon-zhexian" ></i>&nbsp;&nbsp;&nbsp;{{positionData.handlerFancing }}</span>
               </div>
               <div>
-                <span><i class="iconfont icon-yonghu" ></i>&nbsp;&nbsp;&nbsp; 10000人以上</span>
+                <span><i class="iconfont icon-yonghu" ></i>&nbsp;&nbsp;&nbsp; {{positionData.handlerScale}}</span>
                 <span><i class="iconfont icon-jigou" ></i> &nbsp;&nbsp;&nbsp; {{positionData.company.net}}</span>
               </div>
             </div>
@@ -237,6 +237,10 @@
               console.log(err);
               this.$message.error("拉取数据错误，请检查你的网络")
             })
+          },
+          goResume()
+          {
+            this.$router.push("/resume");
           }
         },
         components:{
@@ -244,7 +248,6 @@
         },
         created()
         {
-          //console.log("id",this.$route.query.id);
           this.positionId=this.$route.query.id;
           this.getPositionDetails(this.$route.query.id);
         }

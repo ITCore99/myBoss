@@ -109,9 +109,9 @@
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage1"
-              :page-size="100"
+              :page-size="10"
               layout="total, prev, pager, next"
-              :total="1000">
+              :total="totalCount">
             </el-pagination>
           </div>
         </div>
@@ -190,7 +190,8 @@
               positionClassify:"",
             },
             queryString:"" ,//查询参数
-            noDataFlage:false
+            noDataFlage:false,
+            totalCount:0,
           }
 
         },
@@ -271,6 +272,7 @@
             this.$axios.post("position/search",{params:this.params}).then(res=>{
               if(res.code==200)
               {
+                 console.log("sss",res);
                  if(res.data.length!=0)
                  {
                    res.data.forEach(item=>{
@@ -368,6 +370,7 @@
                  }else{
                    this.noDataFlage=true;
                  }
+                 this.totalCount=res.count;
                  this.positionData=res.data;
 
               }
@@ -498,6 +501,7 @@
     .filter-list-part
     {
        width:1000px;
+       min-height: 500px;
        margin: 20px auto 0;
        background: #fff;
        .filter-list-item
@@ -652,7 +656,7 @@
       align-items: center;
       width: 1000px;
       height: 500px;
-      margin:0 auto;
+      margin:20px  auto 0;
       color:#9FA3B0;
       font-size: 16px;
       background-color: #fff;
