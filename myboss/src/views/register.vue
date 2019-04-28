@@ -1,17 +1,24 @@
 <template>
     <div class="register-container">
       <div :class="switcher ? 'register-part-wrapper goHidden':'register-part-wrapper'">
-        <div class="register-part">
-          <div class="register-title">
-               一键注册BOSS 直聘
+        <div class="register-part" >
+          <div class="register-title" >
+            立即注册&nbsp;&nbsp;科大直聘
+          </div>
+          <div class="tabar-trigger">
+            <div :class="userType == 0 ? 'active' : '' " @click="changeUserType(0)">我要求职</div>
+            <div :class="userType == 1 ? 'active' : '' " @click="changeUserType(1)">我要招聘</div>
           </div>
           <div class="formBox">
             <el-form :model="ruleForm"  status-icon :rules="rules" ref="ruleForm"  class="demo-ruleForm">
-              <el-form-item label="" prop="username" style="margin-top:20px;">
+              <el-form-item label="" prop="username" >
                 <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
               </el-form-item>
-              <el-form-item label="" prop="phone">
-                <el-input v-model="ruleForm.phone"   placeholder="请输入电话"></el-input>
+              <el-form-item label="" prop="phone" v-show="userType==0 ">
+                <el-input v-model="ruleForm.phone"   placeholder="请输入电话" ></el-input>
+              </el-form-item>
+              <el-form-item label="" prop="email" v-show="userType==1">
+                <el-input v-model="ruleForm.email"   placeholder="请输入公司邮箱"></el-input>
               </el-form-item>
               <el-form-item label="" prop="password">
                 <el-input v-model="ruleForm.password"  type="password" placeholder="请输入密码"  autocomplete="off"></el-input>
@@ -28,12 +35,16 @@
       </div>
       <div :class="switcher ? 'login-part-wrapper' : 'login-part-wrapper loginHidden'">
           <div class="login-header">
-            <span>欢迎登陆BOOS直聘</span>
+            <span>欢迎登陆科大直聘</span>
             <span @click="switcherHandler">X</span>
+          </div>
+          <div class="tabar-trigger">
+            <div :class="userType == 0 ? 'active' : '' "  @click="changeUserType(0)">我要求职</div>
+            <div :class="userType == 1 ? 'active' : '' "  @click="changeUserType(1)">我要招聘</div>
           </div>
           <div class="login-formBox">
             <el-form :model="ruleForm"  status-icon :rules="rules" ref="ruleForm"  class="demo-ruleForm">
-              <el-form-item label="" prop="username" style="margin-top:20px;">
+              <el-form-item label="" prop="username" style="margin-top:10px;" >
                 <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
               </el-form-item>
               <el-form-item label="" prop="password" style="margin-top:40px;">
@@ -83,17 +94,34 @@
               callback();
             }
           }
+          var checkEmail=(rule,value,callback)=>{
+            if(!value)
+            {
+              return callback(new Error('邮箱不能为空'))
+            }else{
+              let  reg=/^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
+              if(!reg.test(value))
+              {
+                 return callback(new Error('邮箱的格式错误'))
+              }else{
+                callback();
+              }
+            }
+          }
           return{
             ruleForm: {
               username:"",
               phone:"",
-              password:""
+              password:"",
+              email:""
             },
             switcher:false,
+            userType:0, //默认 是0 0表示求职者  1表示招聘者
             rules:{
               username:[ {validator:checkUsername,trigger:'blur'} ],
               phone:[ {validator:checkPhone,trigger:'blur'} ],
-              password:[ {validator:checkPassword,trigger:'blur'}]
+              password:[ {validator:checkPassword,trigger:'blur'}],
+              email:[{validator:checkEmail,trigger:'blur'}]
             }
           }
         },
@@ -111,7 +139,7 @@
                  this.goLogin()
                }
              }else{
-               this.$message.info("error")
+               this.$message.info("请填写完信息！")
                return false;
              }
            }))
@@ -123,23 +151,30 @@
          },
          goLogin()
          {
-           let data={username:this.ruleForm.username,password:this.ruleForm.password}
+           let data={username:this.ruleForm.username,password:this.ruleForm.password,type:this.userType}
            this.$axios.post("/login",data).then(res=>{
              if(res.code==200)
              {
                if(res.msg=="用户未注册")
                {
                  this.$message.info(res.msg);
+                 setTimeout(()=>{
+                   this.switcherHandler();
+                 },500)
+
                }else{
                  this.$message.success(res.msg);
                  this.$store.commit('INTUSERINFO',res.data);
                  this.$router.push("/home");
                }
+             }else{
+               this.$message.info(res.msg);
              }
            })
          },
          goRegister()
          {
+           this.ruleForm.type=this.userType;
            this.$axios.post("/reg",this.ruleForm).then(res=>{
              if(res.code==200)
              {
@@ -151,6 +186,10 @@
                this.$message.info("注册失败！")
              }
            })
+         },
+         changeUserType(type)
+         {
+           this.userType=type;
          }
        }
     }
@@ -185,14 +224,15 @@
 
          .register-title
          {
-           margin-top:15px;
+           margin-top:10px;
            font-size: 26px;
            text-align: center;
            color:#5DD5C8;
          }
+
          .formBox
          {
-           padding-top:35px;
+           padding-top:20px;
            .el-button
            {
              width: 100%;
@@ -231,7 +271,9 @@
        left:50%;
        transform:translate(-50%,-50%);
        width:500px;
-       height:420px;
+       height:450px;
+       padding:15px 35px 10px;
+       box-sizing: border-box;
        background: #fff;
        border-radius: 6px;
        transition: all 0.5s ease 0.1s;
@@ -240,18 +282,13 @@
        {
          display: flex;
          justify-content: space-between;
-         height: 50px;
+         height: 45px;
          font-size: 20px;
-         line-height: 50px;
+         line-height: 45px;
          color:#5DD5C8;
-         background:#F8F8F8;
-         span:nth-of-type(1)
-         {
-           margin-left:15px;
-         }
          span:nth-of-type(2)
          {
-           margin-right: 20px;
+           margin-right: 15px;
            font-size: 20px;
            color:#eee;
            &:hover{
@@ -261,7 +298,7 @@
        }
        .login-formBox
        {
-         padding:30px 35px 10px;
+         padding:15px 0px 10px;
          box-sizing: border-box;
          .el-button
          {
@@ -287,6 +324,23 @@
      {
        border-color:#53cac3 ;
      }
-
+     .tabar-trigger
+     {
+       display: flex;
+       margin-top:15px;
+       font-size: 16px;
+       color:#595757;
+       justify-content: space-between;
+       div{
+         width: 50%;
+         padding:8px 0px 8px;
+         text-align: center;
+       }
+       div.active
+       {
+         border-bottom: 2px solid #5DD5C8;
+         color:#5DD5C8
+       }
+     }
    }
 </style>

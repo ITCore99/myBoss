@@ -15,7 +15,7 @@
                     </div>
                     <div class="rtl-contact-away">
                        <span><i class="iconfont icon-weibiaoti"></i>&nbsp;&nbsp;{{form.phone}}</span>
-                       <span><i class="iconfont icon-weixin "></i>&nbsp;&nbsp;{{form.wxCode}}</span>fot
+                       <span><i class="iconfont icon-weixin "></i>&nbsp;&nbsp;{{form.wxCode}}</span>
                     </div>
                     <div class="rtl-email">
                       <i class="iconfont icon-youxiang"></i>&nbsp;&nbsp;{{form.email}}

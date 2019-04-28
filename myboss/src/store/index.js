@@ -8,6 +8,8 @@ const store=new Vuex.Store({
     userInfo:{
       username:"",
       phone:"",
+      type:"",
+      email:""
     },
     selectedBar:"0"
   },

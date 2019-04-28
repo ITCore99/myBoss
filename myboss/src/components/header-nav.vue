@@ -2,18 +2,21 @@
   <div class="header-nav">
     <div class="header-main">
       <div class="header-main-left">
-        <span class="hml-title">科大直聘</span>
-        <div class="city-part" v-if="false">
-          <i></i>
-          <span>北京</span>
-          <span>[城市切换]</span>
-        </div>
-        <div class="options-part">
+        <span class="hml-title">科大直聘<span v-if="this.$store.state.userInfo.type==1" style="font-size: 16px">（企业版）</span></span>
+        <!--<div class="city-part" >-->
+            <!--<i></i>-->
+            <!--<span>北京</span>-->
+            <!--<span>[城市切换]</span>-->
+        <!--</div>-->
+        <div class="options-part" v-if="this.$store.state.userInfo.type==0">
           <router-link to="/home" :class= "this.$store.state.selectedBar == 0 ? 'active' : '' " @click.native="changeBarTitle(0)">首页</router-link>
           <router-link to="/position"  :class= "this.$store.state.selectedBar == 1 ? 'active' : '' " @click.native="changeBarTitle(1)">职位</router-link>
           <router-link to="/company"  :class= "this.$store.state.selectedBar == 2 ? 'active' : '' " @click.native="changeBarTitle(2)">公司</router-link>
           <router-link to="">APP</router-link>
           <router-link to="">资讯</router-link>
+        </div>
+        <div class="company-options-part"  v-if="this.$store.state.userInfo.type==1">
+          <router-link to="/company/resume/list" style="color:#5dd5c8"><i class="iconfont icon-youxiang"></i>&nbsp;&nbsp;邮件</router-link>
         </div>
       </div>
       <div class="header-main-right" v-if="this.$store.state.userInfo.phone" >
@@ -22,7 +25,7 @@
         <!--<span>.</span>-->
         <!--<router-link to="">上传</router-link>-->
         <router-link to="">付卓宁</router-link>
-        <div class="hmr-avatar">
+        <div class="hmr-avatar" >
 
         </div>
       </div>
@@ -36,7 +39,7 @@
         data()
         {
           return{
-
+             flage:false
           }
         },
         methods:{
@@ -59,7 +62,7 @@
   .header-nav{
     height:60px;
     background-color:#202329;
-    .header-main{
+    .header-main,.company-header-main{
       display:flex;
       justify-content:space-between;
       align-items: center;
@@ -86,7 +89,7 @@
           }
         }
 
-        .options-part{
+        .options-part,.company-options-part{
           a{
             color:#fff;
             font-size: $font-size;

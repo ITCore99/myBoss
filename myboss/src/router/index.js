@@ -10,6 +10,7 @@ Vue.use(Router)
    positionDetails:()=>import('@/views/positionDetails'),
    companyDetails:()=>import('@/views/companyDetails'),
    resume:()=>import('@/views/resume'),
+   companyResumeShow:()=>import('@/views/company-resume-show')
  }
 export default new Router({
   routes: [
@@ -47,6 +48,11 @@ export default new Router({
       path:"/resume",
       name:"resume",
       component:components.resume
+    },
+    {
+      path:"/company/resume/list",
+      name:"companyResumeList",
+      component:components.companyResumeShow,
     }
   ]
 })

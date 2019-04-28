@@ -40,7 +40,8 @@
                 <div>{{positionData.recruiterPosition}}</div>
               </div>
             </div>
-            <div class="pdimr-reaction"><i class="iconfont icon-shoucang "></i> 感兴趣</div>
+            <div class="pdimr-reaction" v-if="deLiverFlage" ><i class="iconfont icon-toudi"></i>&nbsp;&nbsp;已投递</div>
+            <div class="pdimr-reaction" v-else @click="goDeliverResume"><i class="iconfont icon-toudi1" style="fontSize:18px;"></i>&nbsp;&nbsp;投递简历</div>
             <!--公司简介-->
             <div class="pdim-company-introduce">
               <span>公司基本信息：</span>
@@ -127,7 +128,8 @@
             positionId:"",//存放职位id
             positionData:"" ,
             businessInfo:[],//工商信息
-            companyTeam:[],//公司团队
+            companyTeam:[],//公司团队,
+            deLiverFlage:false,
 
           }
         },
@@ -232,6 +234,7 @@
                 this.handlerTeam=res.data.team.split("，");
                 this.businessInfo=res.data.company.business.split("，");
                 this.companyTeam=res.data.company.team.split("，");
+                this.judgeDeliverResume(res.data.company._id);
               }
             }).catch(err=>{
               console.log(err);
@@ -241,6 +244,58 @@
           goResume()
           {
             this.$router.push("/resume");
+          },
+          /**
+           * 发起投递简历
+           */
+          goDeliverResume()
+          {
+             this.$confirm("牛人，确定向这家公司投送简历 ？",'提示',{
+               confirmButtonText:"确定",
+               cancelButtonText:"取消",
+               type:"info"
+             }).then(()=>{
+               this. deliverSave();
+             }).catch(()=>{
+
+             });
+          },
+          /**
+           * 简历投递函数
+           */
+          deliverSave()
+          {
+            let data={phone:this.$store.state.userInfo.phone,company:this.positionData.company._id};
+            this.$axios.post("deliver/add",data).then(res=>{
+              if(res.code==200)
+              {
+                this.$message.success("投递成功");
+                this.deLiverFlage=true;
+
+              }else{
+                this.$message.error(res.msg);
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("投递失败，请检查网络连接！");
+            })
+          },
+          /***
+           * 判断是否已经投递过简历
+           */
+          judgeDeliverResume(id)
+          {
+            let params={phone:this.$store.state.userInfo.phone,company:id};
+            this.$axios.get("deliver/select",params).then(res=>{
+              console.log("judgeDeliver",res);
+              if(res.code==200)
+              {
+                this.deLiverFlage=res.flage;
+              }
+            }).catch(err=>{
+              console.log(err);
+              this.$message.error("获取数据失败,请检查网络连接！")
+            })
           }
         },
         components:{
@@ -250,7 +305,12 @@
         {
           this.positionId=this.$route.query.id;
           this.getPositionDetails(this.$route.query.id);
-        }
+        },
+         mounted()
+         {
+           //console.log("positionData",this.positionData);
+           //this.judgeDeliverResume();
+         }
     }
 </script>
 
@@ -387,7 +447,7 @@
           }
           .pdimr-reaction
           {
-            color:#9FA3B0;
+            color:#795757;
             &:hover
             {
               color: #5DD5C8;
