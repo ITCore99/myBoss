@@ -165,7 +165,16 @@
                }else{
                  this.$message.success(res.msg);
                  this.$store.commit('INTUSERINFO',res.data);
-                 this.$router.push("/home");
+                 setTimeout(()=>{
+                   let type=this.$store.state.userInfo.type
+                   if(type=="0")
+                   {
+                     this.$router.push("/home");
+                   }else{
+                     this.$router.push("/company/resume/list");
+                   }
+                 },500)
+
                }
              }else{
                this.$message.info(res.msg);

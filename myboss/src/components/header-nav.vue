@@ -16,7 +16,7 @@
           <router-link to="">资讯</router-link>
         </div>
         <div class="company-options-part"  v-if="this.$store.state.userInfo.type==1">
-          <router-link to="/company/resume/list" style="color:#5dd5c8"><i class="iconfont icon-youxiang"></i>&nbsp;&nbsp;邮件</router-link>
+          <router-link to="/company/resume/list" style="color:#5dd5c8"><i class="iconfont icon-youxiang"></i>&nbsp;&nbsp;简历箱</router-link>
         </div>
       </div>
       <div class="header-main-right" v-if="this.$store.state.userInfo.phone" >
@@ -26,7 +26,11 @@
         <!--<router-link to="">上传</router-link>-->
         <router-link to="">付卓宁</router-link>
         <div class="hmr-avatar" >
-
+        </div>
+      </div>
+      <div class="company-header-main-right" v-if="this.$store.state.userInfo.type==1">
+        <router-link to="">付卓宁</router-link>
+        <div class="hmr-avatar" >
         </div>
       </div>
     </div>
@@ -107,7 +111,7 @@
         }
 
       }
-      .header-main-right{
+      .header-main-right,.company-header-main-right{
         display: flex;
         align-items: center;
         height: 100%;
