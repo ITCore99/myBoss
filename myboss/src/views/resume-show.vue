@@ -11,7 +11,7 @@
               <div class="rtl-work-state">
                 <span><i class="iconfont icon-nianling "></i>&nbsp;&nbsp;{{this.resumeData.handlerAge}}</span>
                 <span><i class="iconfont icon-bangong "></i>&nbsp;&nbsp;{{this.resumeData.handlerWorkException}}</span>
-                <span><i class="iconfont icon-Highest "></i>&nbsp;&nbsp;{{this.resumeData.education}}</span>
+                <span><i class="iconfont icon-Highest "></i>&nbsp;&nbsp;{{this.resumeData.handlerEducation}}</span>
                 <span><i class="iconfont icon-lizhi "></i>&nbsp;&nbsp;{{this.resumeData.handlerWorkState}}</span>
               </div>
               <div class="rtl-contact-away">
@@ -74,7 +74,7 @@
       </div>
       <el-dialog title="编辑面试信息" :visible.sync="dialogInterviewVisible"  class="dialog-interview">
         <quill-editor
-          v-model="projectExceptionTextArea"
+          v-model="interviewTextArea"
           :options="editorOption"
           ref="myQuillEditor3"
         >
@@ -115,7 +115,8 @@
             ]
           }
         },
-        projectExceptionTextArea:"",
+        interviewTextArea:"",
+        companyId:"",
       }
     },
     methods:{
@@ -126,6 +127,7 @@
       {
 
         this.$axios.get(`resume/definite/${id}`).then(res=>{
+          console.log("resume,,",res);
           if(res.code==200)
           {
             if(res.data.length>0)
@@ -136,6 +138,7 @@
               let handlerWorkException=new Date().getFullYear()-startYear <=0 ? '应届生' : `${new Date().getFullYear()-startYear}年工作经验`;
               let handlerAge=new Date().getFullYear()-birthYear;
               let handlerWorkState="";
+              let handlerEducation="";
               switch (data.workState)
               {
                 case "0" :
@@ -148,8 +151,27 @@
                    handlerWorkState="在职-月内到岗";
                    break;
               }
+              switch (data.education)
+              {
+                case "0" :
+                  handlerEducation="专科";
+                  break;
+                case "1" :
+                  handlerEducation="本科";
+                  break;
+                case "2" :
+                  handlerEducation="硕士";
+                  break;
+                case "3" :
+                  handlerEducation="博士";
+                  break;
+                case "4" :
+                  handlerEducation="博士以上";
+                  break;
+              }
               data.handlerWorkException=handlerWorkException;
               data.handlerAge=handlerAge;
+              data.handlerEducation=handlerEducation;
               data.handlerWorkState=handlerWorkState;
               this.resumeData=data;
             }
@@ -181,7 +203,29 @@
        */
       SaveInterview()
       {
+        let data={
+          content:this.interviewTextArea,
+          sponsor:this.$store.state.userInfo.id,
+          company:this.companyId,
+          hunterPhone:this.resumeData.phone,
+        }
+        this.$axios.post("interview/add",data).then(res=>{
+          console.log("saveInterview",res);
+          if(res.code==200)
+          {
+            this.$message.success(res.msg);
+            this. dialogInterviewVisible=false;
+            this.interviewTextArea="";
 
+          }else{
+            this.$message.info(res.msg);
+            this. dialogInterviewVisible=false;
+          }
+
+        }).catch(err=>{
+          console.log(err);
+          this.$message.error("面试邀请发送失败，请检查你的网络连接！");
+        })
       }
     },
     components:{
@@ -195,9 +239,10 @@
     },
     created()
     {
-      let resumeId=this.$route.query.id;
+      let{resumeId,companyId}=this.$route.query;
       this.resumeId=resumeId;
-      this.getResumeData(resumeId)
+      this.companyId=companyId;
+      this.getResumeData(resumeId,)
 
     }
   }

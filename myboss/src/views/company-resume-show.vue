@@ -5,7 +5,7 @@
         <!--下拉选择区-->
         <div class="dropSelected-part">
           <div class="drop-title">简历筛选：</div>
-          <div class="drop-item">
+          <div class="drop-item" >
             <div class="drop-item-input">
               <input type="text"  readonly="readonly" v-model="workExperience"/>
               <div class="selected-list">
@@ -16,7 +16,7 @@
               <span class="triangle"></span>
             </div>
           </div>
-          <div class="drop-item">
+          <div class="drop-item" >
             <div class="drop-item-input">
               <input type="text"  readonly="readonly" v-model="education"/>
               <div class="selected-list">
@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="drop-item">
-            <div class="drop-item-input">
+            <div class="drop-item-input" >
               <input type="text"  readonly="readonly" v-model="salary"/>
               <div class="selected-list">
                 <ul  @click="handlerFilter">
@@ -51,7 +51,7 @@
             <div class="fil-bottom">
               <span>{{item.resume.exceptionPlace}}</span>
               <span>{{item.handlerWorkExperence}}{{item.handlerWorkExperence <= 0 ? '' : ' 年经验'}}</span>
-              <span>{{item.resume.education}}</span>
+              <span>{{item.handlerEducation}}</span>
             </div>
           </div>
 
@@ -131,7 +131,8 @@
         },
         noDataFlage:false,
         totalCount:0,
-        deliverResumeData:[]  //投递的简历信息
+        deliverResumeData:[],  //投递的简历信息,
+        companyId:"",
       }
 
     },
@@ -170,6 +171,7 @@
           this[param]=name;
           this.params[param]=value;
         }
+        this.fliterDeliverResume();
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -177,6 +179,9 @@
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
       },
+      /***
+       * 获取投递简历数据
+       */
       getDeliverResume()
       {
         this.$axios.get("deliver/company",{email:"it_fzn19970317@163.com"}).then(res=>{
@@ -191,11 +196,32 @@
                 let workYear=new Date().getFullYear()-startDate.getFullYear()
                 workYear = workYear <= 0 ? '应届生' : workYear ;
                 item.handlerWorkExperence=workYear;
+                let handlerEducation="";
+                console.log("item.education",item.education)
+                switch (item.resume.education)
+                {
+                  case "0" :
+                    handlerEducation="专科";
+                    break;
+                  case "1" :
+                    handlerEducation="本科";
+                    break;
+                  case "2" :
+                    handlerEducation="硕士";
+                    break;
+                  case "3" :
+                    handlerEducation="博士";
+                    break;
+                  case "4" :
+                    handlerEducation="博士以上";
+                    break;
+                }
+                item.handlerEducation=handlerEducation;
+              });
 
-              })
               this.deliverResumeData=res.data;
-            }else{
-
+              this.companyId=res.data[0].company;
+              this.totalCount=res.data.length;
             }
 
           }else{
@@ -209,7 +235,28 @@
       },
       goResumeShow(id)
       {
-        this.$router.push({path:"/look/resume",query:{id}});
+        this.$router.push({path:"/look/resume",query:{resumeId:id,companyId:this.companyId}});
+      },
+      /***
+       * 简历筛选函数
+       */
+       fliterDeliverResume()
+      {
+         this.$axios.post("deliver/",{params:this.params}).then(res=>{
+           console.log("fliterDeliverResume",res);
+           if(res.code==200)
+           {
+             if(res.data.length==0)
+             {
+               this.noDataFlage=true;
+             }else{
+               this.noDataFlage=false;
+               this.deliverResumeData=res.data;
+               this.totalCount=res.count;
+             }
+           }
+
+         })
       }
     },
     components:{
@@ -246,7 +293,8 @@
         .drop-item
         {
           position: relative;
-          width: 150px;
+          margin-left: 35px;
+          width: 160px;
           margin-right: 30px;
           .drop-item-input
           {
@@ -256,14 +304,14 @@
             input{
               width: 150px;
               height: 30px;
-              text-align: center;
+              text-indent: 2em;
               outline: none;
               border: none;
             }
             span{
               position: absolute;
               top:13px;
-              right:4px;
+              right:20px;
               width: 0;
               height: 0;
               border: 5px solid transparent;
@@ -279,7 +327,7 @@
             position: absolute;
             top:30px;
             left:0;
-            width: 150px;
+            width: 160px;
             display: none;
             ul
             {

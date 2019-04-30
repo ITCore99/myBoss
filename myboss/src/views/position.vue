@@ -442,7 +442,8 @@
         .drop-item
         {
           position: relative;
-          width: 150px;
+          margin-left: 35px;
+          width: 160px;
           margin-right: 30px;
           .drop-item-input
           {
@@ -452,14 +453,14 @@
             input{
               width: 150px;
               height: 30px;
-              text-align: center;
+              /*text-align: center;*/
               outline: none;
               border: none;
             }
             span{
               position: absolute;
               top:13px;
-              right:4px;
+              right:20px;
               width: 0;
               height: 0;
               border: 5px solid transparent;
@@ -475,7 +476,7 @@
             position: absolute;
             top:30px;
             left:0;
-            width: 150px;
+            width: 160px;
             display: none;
             ul
             {

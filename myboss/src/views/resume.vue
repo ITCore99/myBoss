@@ -505,7 +505,7 @@
             }
             if(flage=="0")
             {
-
+              console.log("我是flage==0",flage)
               if(this.form.workState != "工作状态")
               {
                 this.workStates.forEach(item=>{
@@ -515,19 +515,23 @@
                   }
                 })
               }
-              if(this.form.eduction!= "学历")
+              console.log("this.form.education",this.form.education);
+              if(this.form.education!= "学历")
               {
-                this.educationData.forEach(item=>{
-                  if(item.name==this.form.eduction)
+                let that=this;
+                this.educationData.forEach(temp=>{
+                  console.log("boolean",temp.name==this.form.education)
+                  if(temp.name==this.form.education)
                   {
-                    this.temporaryEducation=item.value;
+                    console.log("temporaryEducation",temp.value)
+                    that.temporaryEducation=temp.value;
                   }
                 })
               }
             }
             params={...this.form};
             params.workState=this.temporaryWorkState;
-            params.eduction=this.temporaryEducation;
+            params.education=this.temporaryEducation;
             params.exceptionPosition=this.form2.expectPosition;
             params.exceptSalary=this.temporarySalary;
             params.exceptionIndustry= this.temporaryIndustry;
