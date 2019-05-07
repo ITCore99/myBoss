@@ -54,16 +54,17 @@
               <span>{{item.handlerEducation}}</span>
             </div>
           </div>
-
+          <div :class="item.state==0 ? 'filter-item-middle no-read' : item.state==1 ? 'filter-item-middle read' : 'filter-item-middle interviewed' "><i class="iconfont icon-zhuangtai
+ "></i>&nbsp;&nbsp;{{item.state==0 ? '未读' : item.state==1 ? '已读' : '已发送面试邀请' }}</div>
           <div class="filter-item-right">
             <div class="fir-wrapper">
               <div class="fir-wrapper-top">
                 <img src="https://img2.bosszhipin.com/boss/avatar/avatar_15.png">
-                <span>{{item.resume.name}}</span>
+                <span>&nbsp;&nbsp;{{item.resume.name}}</span>
               </div>
             </div>
             <div class="communicate">
-              <button @click="goResumeShow(item.resume._id)">查看简历</button>
+              <button @click="goResumeShow(item.resume._id,item._id)">查看简历</button>
             </div>
           </div>
         </div>
@@ -184,7 +185,7 @@
        */
       getDeliverResume()
       {
-        this.$axios.get("deliver/company",{email:"it_fzn19970317@163.com"}).then(res=>{
+        this.$axios.get("deliver/company",{email:this.$store.state.userInfo.email}).then(res=>{
           console.log("deliverResume",res);
           if(res.code==200)
           {
@@ -233,9 +234,9 @@
           this.$message.error("获取数据错误,请检查你的网络连接！")
         })
       },
-      goResumeShow(id)
+      goResumeShow(id,_id)
       {
-        this.$router.push({path:"/look/resume",query:{resumeId:id,companyId:this.companyId}});
+        this.$router.push({path:"/look/resume",query:{resumeId:id,companyId:this.companyId,_id}});
       },
       /***
        * 简历筛选函数
@@ -403,33 +404,17 @@
         .filter-item-middle
         {
           width: calc(100% / 3);
-          .fim-top
-          {
-            font-size: 16px;
-            color:#414A60;
-            &:hover span
-            {
-              color:#00C2B3;
-            }
+          font-size: 14px;
+          color:#FC703E;
+          text-align: center;
+          &.no-read{
+            color:#FC703E;
           }
-          .fim-bottom
-          {
-            margin-top:8px;
-            color:#9FA3B0;
-            font-size: 0;
-            span{
-              font-size: 12px;
-              padding:0 6px;
-            }
-            span:nth-of-type(1)
-            {
-              border-right:1px solid  #eee;
-              padding-left:0px;
-            }
-            span:nth-of-type(2)
-            {
-              border-right: 1px solid  #eee;
-            }
+          &.read{
+            color:#aaa;
+          }
+          &.interviewed{
+            color:#00C2B3;
           }
         }
         .filter-item-right

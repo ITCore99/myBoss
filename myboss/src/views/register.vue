@@ -146,7 +146,6 @@
          },
          switcherHandler()
          {
-           console.log("执行了")
            this.switcher=!this.switcher;
          },
          goLogin()
@@ -163,6 +162,7 @@
                  },500)
 
                }else{
+                 console.log("登陆信息",res.data);
                  this.$message.success(res.msg);
                  this.$store.commit('INTUSERINFO',res.data);
                  setTimeout(()=>{

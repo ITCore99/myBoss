@@ -272,7 +272,6 @@
             this.$axios.post("position/search",{params:this.params}).then(res=>{
               if(res.code==200)
               {
-                 console.log("sss",res);
                  if(res.data.length!=0)
                  {
                    res.data.forEach(item=>{

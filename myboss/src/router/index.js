@@ -12,6 +12,10 @@ Vue.use(Router)
    resume:()=>import('@/views/resume'),
    companyResumeShow:()=>import('@/views/company-resume-show'),
    resumeShow:()=>import('@/views/resume-show'),
+   interviewList:()=>import('@/views/interview-list'),
+   interviewShow:()=>import('@/views/interview-show'),
+   companyInfoSupplement:()=>import('@/views/component-info-supplement'),
+   positionPublish:()=>import('@/views/positionPublish')
  }
 export default new Router({
   routes: [
@@ -59,6 +63,26 @@ export default new Router({
       path:"/look/resume",
       name:"resume-show",
       component:components.resumeShow
+    },
+    {
+      path:"/interview/list",
+      name:"interview-list",
+      component:components.interviewList,
+    },
+    {
+      path:"/interview/show",
+      name:"interview-show",
+      component:components.interviewShow
+    },
+    {
+      path:"/company/info/supplement",
+      name:"component-info-supplement",
+      component:components.companyInfoSupplement,
+    },
+    {
+      path:"/position/publish",
+      name:"position-publish",
+      component:components.positionPublish
     }
   ]
 })

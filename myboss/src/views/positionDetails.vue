@@ -130,6 +130,7 @@
             businessInfo:[],//工商信息
             companyTeam:[],//公司团队,
             deLiverFlage:false,
+            completeResume:true,//判断是否完善完简历
 
           }
         },
@@ -250,12 +251,17 @@
            */
           goDeliverResume()
           {
+            if(!this.completeResume)
+            {
+              this.$message.info("你还没有完善简历，请完善简历之后再投递！");
+              return;
+            }
              this.$confirm("牛人，确定向这家公司投送简历 ？",'提示',{
                confirmButtonText:"确定",
                cancelButtonText:"取消",
                type:"info"
              }).then(()=>{
-               this. deliverSave();
+               this.deliverSave();
              }).catch(()=>{
 
              });
@@ -265,7 +271,8 @@
            */
           deliverSave()
           {
-            let data={phone:this.$store.state.userInfo.phone,company:this.positionData.company._id};
+
+            let data={phone:this.$store.state.userInfo.phone,company:this.positionData.company._id,position:this.positionId};
             this.$axios.post("deliver/add",data).then(res=>{
               if(res.code==200)
               {
@@ -285,11 +292,14 @@
            */
           judgeDeliverResume(id)
           {
-            let params={phone:this.$store.state.userInfo.phone,company:id};
+            let params={phone:this.$store.state.userInfo.phone,company:id,position:this.positionId};
             this.$axios.get("deliver/select",params).then(res=>{
-              console.log("judgeDeliver",res);
               if(res.code==200)
               {
+                if(!res.complete)//说明没有完善简历
+                {
+                  this.completeResume=false;
+                }
                 this.deLiverFlage=res.flage;
               }
             }).catch(err=>{

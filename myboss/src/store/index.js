@@ -6,13 +6,14 @@ Vue.use(Vuex);
 const store=new Vuex.Store({
   state:{
     userInfo:{
-      _id:"",
+      id:"",
       username:"",
       phone:"",
       type:"",
       email:""
     },
-    selectedBar:"0"
+    selectedBar:"0",
+    companyId:"",
   },
   mutations: {
     INTUSERINFO(state,payload)
@@ -22,6 +23,10 @@ const store=new Vuex.Store({
     CHANGETITLE(state,payload)
     {
       this.state.selectedBar=payload;
+    },
+    CHANGECOMPANYID(state,payload)
+    {
+      this.state.companyId=payload
     }
   },
   plugins:[createPersistedState({

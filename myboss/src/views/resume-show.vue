@@ -117,6 +117,7 @@
         },
         interviewTextArea:"",
         companyId:"",
+        deliverId:"",
       }
     },
     methods:{
@@ -213,9 +214,10 @@
           console.log("saveInterview",res);
           if(res.code==200)
           {
-            this.$message.success(res.msg);
+            this.$message.success("发送成功");
             this. dialogInterviewVisible=false;
             this.interviewTextArea="";
+            this.updateStateDeliver(this.deliverId,"2")
 
           }else{
             this.$message.info(res.msg);
@@ -226,7 +228,25 @@
           console.log(err);
           this.$message.error("面试邀请发送失败，请检查你的网络连接！");
         })
-      }
+      },
+      /**
+       * 修改状态值
+       * @param id 是投递记录表的id
+       */
+       updateStateDeliver(id,state)
+        {
+          this.$axios.post("deliver/update/state",{id,state}).then(res=>{
+            console.log("updateStateDeliver",res);
+            if(res.code==200)
+            {
+            }else{
+              this.$message.info(res.msg);
+            }
+          }).catch(err=>{
+            console.log(err);
+            this.$message.error("拉取数据错误，请检查网络连接！")
+          })
+        }
     },
     components:{
       quillEditor,
@@ -239,10 +259,12 @@
     },
     created()
     {
-      let{resumeId,companyId}=this.$route.query;
+      let{resumeId,companyId,_id}=this.$route.query;
       this.resumeId=resumeId;
+      this.deliverId=_id,
       this.companyId=companyId;
-      this.getResumeData(resumeId,)
+      this.getResumeData(resumeId);
+      this.updateStateDeliver(_id,"1");
 
     }
   }
